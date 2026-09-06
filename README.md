@@ -1,5 +1,5 @@
-# MOTOCLE: Operación Campus
 
+<<<<<<< HEAD
 Plataformas 2D hecho en **Godot 4** (probado con Godot 4.3) para tu clase en la UTT.
 Motocle recorre 5 edificios del campus para rescatar a Avelina de las garras de **GLITCH.exe**.
 
@@ -287,3 +287,5 @@ el juego sea jugable de inmediato — no son arte final. Para reemplazarlos:
 El documento `motocle_narrativa.md` (entregado por separado en la conversación) tiene
 la historia completa, los personajes y la descripción de cada nivel — útil si quieres
 mostrarlo en clase antes de jugar, o dárselo a tus alumnos como referencia de diseño.
+=======
+>>>>>>> 6af59c5c68dbba06aa885376c00918a876c0a1e6
