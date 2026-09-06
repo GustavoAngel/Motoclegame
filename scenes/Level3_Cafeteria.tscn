@@ -1,0 +1,94 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/bg_cafeteria.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/Enemy.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/Boss.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/Fragment.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ExitDoor.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemy_cup.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/boss_cafetera.png" id="11"]
+
+[node name="Level3_Cafeteria" type="Node2D"]
+script = ExtResource("1")
+level_title = "Cafetería"
+dialogue_text = "El auditorio es el siguiente... GLITCH.exe está reforzando su control ahí. ¡Cuidado con las luces, Motocle!"
+is_final_level = false
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+scale = Vector2(2.5, 1.6)
+centered = false
+texture = ExtResource("2")
+
+[node name="Ground" parent="." instance=ExtResource("3")]
+position = Vector2(800, 556)
+scale = Vector2(16.667, 2)
+
+[node name="PlatformA" parent="." instance=ExtResource("3")]
+position = Vector2(350, 430)
+scale = Vector2(2.5, 1)
+
+[node name="PlatformB" parent="." instance=ExtResource("3")]
+position = Vector2(650, 340)
+scale = Vector2(2, 1)
+
+[node name="PlatformC" parent="." instance=ExtResource("3")]
+position = Vector2(950, 430)
+scale = Vector2(2.5, 1)
+
+[node name="PlatformD" parent="." instance=ExtResource("3")]
+position = Vector2(1250, 340)
+scale = Vector2(2, 1)
+
+[node name="Player" parent="." instance=ExtResource("4")]
+position = Vector2(80, 480)
+
+[node name="Enemy1" parent="." instance=ExtResource("5")]
+position = Vector2(380, 532)
+sprite_texture = ExtResource("10")
+max_health = 25
+move_speed = 50.0
+patrol_range = 70.0
+shoot_interval = 1.9
+contact_damage = 9
+
+[node name="Enemy2" parent="." instance=ExtResource("5")]
+position = Vector2(650, 328)
+sprite_texture = ExtResource("10")
+max_health = 25
+move_speed = 50.0
+patrol_range = 70.0
+shoot_interval = 1.9
+contact_damage = 9
+
+[node name="Enemy3" parent="." instance=ExtResource("5")]
+position = Vector2(1150, 532)
+sprite_texture = ExtResource("10")
+max_health = 25
+move_speed = 50.0
+patrol_range = 70.0
+shoot_interval = 1.9
+contact_damage = 9
+
+[node name="Boss" parent="." instance=ExtResource("6")]
+position = Vector2(1450, 532)
+sprite_texture = ExtResource("11")
+max_health = 160
+patrol_range = 55.0
+move_speed = 25.0
+shoot_interval = 1.7
+burst_count = 4
+contact_damage = 16
+boss_name = "Mega-Cafetera"
+
+[node name="Fragment" parent="." instance=ExtResource("7")]
+position = Vector2(1450, 442)
+
+[node name="ExitDoor" parent="." instance=ExtResource("8")]
+position = Vector2(1540, 489)
+
+[node name="HUD" parent="." instance=ExtResource("9")]

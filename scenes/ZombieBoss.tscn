@@ -1,0 +1,81 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ZombieBoss.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/idle.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_01.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_02.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_03.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_04.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_05.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_06.png" id="8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(70, 122)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8")
+}],
+"loop": false,
+"name": &"throw",
+"speed": 8.0
+}]
+
+[node name="ZombieBoss" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+boss_name = "Profesor Zombie"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -80)
+sprite_frames = SubResource("SpriteFrames_1")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -70)
+shape = SubResource("RectangleShape2D_1")
+
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 2.4
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -70.0
+offset_top = -168.0
+offset_right = 70.0
+offset_bottom = -149.0
+horizontal_alignment = 1
+text = "Jefe"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -60.0
+offset_top = -145.0
+offset_right = 60.0
+offset_bottom = -131.0
+show_percentage = false

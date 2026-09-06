@@ -1,0 +1,121 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/bg_zombies.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ZombieBoss.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/Fragment.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ExitDoor.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/ZombieShambler.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/ZombieRunner.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://scenes/ZombieRotten.tscn" id="12"]
+
+[node name="Level1_Sistemas" type="Node2D"]
+script = ExtResource("1")
+level_title = "Edificio de Sistemas — Brote Zombie"
+dialogue_text = "Motocle... GLITCH.exe no solo infectó las máquinas, ¡también contagió al Profesor Reyes y a los ayudantes del laboratorio! Busca en la biblioteca... el virus dividió mis archivos en fragmentos por todo el campus..."
+is_final_level = false
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(-50, -110)
+scale = Vector2(1.9571, 1.1845)
+centered = false
+texture = ExtResource("2")
+
+[node name="Ground" parent="." instance=ExtResource("3")]
+position = Vector2(1500, 556)
+scale = Vector2(31.25, 2)
+
+[node name="PlatformA" parent="." instance=ExtResource("3")]
+position = Vector2(350, 430)
+scale = Vector2(2.5, 1)
+
+[node name="PlatformB" parent="." instance=ExtResource("3")]
+position = Vector2(650, 340)
+scale = Vector2(2, 1)
+
+[node name="PlatformC" parent="." instance=ExtResource("3")]
+position = Vector2(950, 430)
+scale = Vector2(2.5, 1)
+
+[node name="PlatformD" parent="." instance=ExtResource("3")]
+position = Vector2(1250, 340)
+scale = Vector2(2, 1)
+
+[node name="PlatformE" parent="." instance=ExtResource("3")]
+position = Vector2(1550, 420)
+scale = Vector2(2, 1)
+
+[node name="PlatformF" parent="." instance=ExtResource("3")]
+position = Vector2(1800, 330)
+scale = Vector2(1.8, 1)
+
+[node name="PlatformG" parent="." instance=ExtResource("3")]
+position = Vector2(2050, 430)
+scale = Vector2(2.2, 1)
+
+[node name="PlatformH" parent="." instance=ExtResource("3")]
+position = Vector2(2300, 350)
+scale = Vector2(2, 1)
+
+[node name="PlatformI" parent="." instance=ExtResource("3")]
+position = Vector2(2550, 440)
+scale = Vector2(2.5, 1)
+
+[node name="Player" parent="." instance=ExtResource("4")]
+position = Vector2(80, 480)
+
+[node name="Zombie1" parent="." instance=ExtResource("10")]
+position = Vector2(300, 532)
+
+[node name="Zombie2" parent="." instance=ExtResource("10")]
+position = Vector2(480, 532)
+
+[node name="Zombie3" parent="." instance=ExtResource("11")]
+position = Vector2(650, 532)
+
+[node name="Zombie4" parent="." instance=ExtResource("10")]
+position = Vector2(820, 532)
+
+[node name="Zombie5" parent="." instance=ExtResource("11")]
+position = Vector2(1000, 532)
+
+[node name="Zombie6" parent="." instance=ExtResource("12")]
+position = Vector2(1180, 532)
+
+[node name="Zombie7" parent="." instance=ExtResource("12")]
+position = Vector2(1350, 532)
+
+[node name="Zombie8" parent="." instance=ExtResource("10")]
+position = Vector2(1600, 532)
+
+[node name="Zombie9" parent="." instance=ExtResource("11")]
+position = Vector2(1850, 532)
+
+[node name="Zombie10" parent="." instance=ExtResource("12")]
+position = Vector2(2100, 532)
+
+[node name="Zombie11" parent="." instance=ExtResource("10")]
+position = Vector2(2350, 532)
+
+[node name="Zombie12" parent="." instance=ExtResource("11")]
+position = Vector2(2600, 532)
+
+[node name="Boss" parent="." instance=ExtResource("6")]
+position = Vector2(2850, 532)
+max_health = 150
+patrol_range = 50.0
+move_speed = 22.0
+throw_interval = 2.2
+contact_damage = 15
+boss_name = "Profesor Zombie"
+
+[node name="Fragment" parent="." instance=ExtResource("7")]
+position = Vector2(2850, 442)
+
+[node name="ExitDoor" parent="." instance=ExtResource("8")]
+position = Vector2(2940, 489)
+
+[node name="HUD" parent="." instance=ExtResource("9")]
