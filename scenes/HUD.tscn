@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/HUD.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/heart_full.png" id="2"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1")
@@ -18,11 +19,27 @@ offset_right = 254.0
 offset_bottom = 30.0
 text = "Nivel"
 
-[node name="HealthBar" type="ProgressBar" parent="Panel"]
+[node name="HeartsBox" type="HBoxContainer" parent="Panel"]
 offset_left = 10.0
-offset_top = 36.0
+offset_top = 34.0
 offset_right = 254.0
-offset_bottom = 60.0
-max_value = 100.0
-value = 100.0
-show_percentage = false
+offset_bottom = 66.0
+theme_override_constants/separation = 8
+
+[node name="Heart1" type="TextureRect" parent="Panel/HeartsBox"]
+custom_minimum_size = Vector2(32, 30)
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart2" type="TextureRect" parent="Panel/HeartsBox"]
+custom_minimum_size = Vector2(32, 30)
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart3" type="TextureRect" parent="Panel/HeartsBox"]
+custom_minimum_size = Vector2(32, 30)
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5

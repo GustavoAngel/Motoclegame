@@ -5,9 +5,13 @@ extends Node
 ## Al ser un Autoload, esta misma instancia sobrevive a los cambios
 ## de escena, así que aquí es donde vive el estado "global" del juego.
 
+## Emite el número de corazones que le quedan a Motocle (0..MAX_HEARTS).
 signal health_changed(new_health: int)
 
-const MAX_HEALTH := 100
+## Vida medida en corazones: cada golpe (bala o contacto) quita 1 corazón
+## completo, sin importar qué tanto "daño" numérico traiga el ataque --
+## así el HUD siempre puede mostrarse como corazones llenos/vacíos.
+const MAX_HEARTS := 3
 
 const LEVELS := [
 	"res://scenes/Level1_Sistemas.tscn",
@@ -17,7 +21,7 @@ const LEVELS := [
 	"res://scenes/Level5_ElH.tscn",
 ]
 
-var current_health: int = MAX_HEALTH
+var current_health: int = MAX_HEARTS
 var current_level_index: int = 0
 var _dialogue_scene := preload("res://scenes/DialogueBox.tscn")
 var _transitioning := false
@@ -25,20 +29,24 @@ var _transitioning := false
 
 func start_new_game() -> void:
 	current_level_index = 0
-	current_health = MAX_HEALTH
+	current_health = MAX_HEARTS
 	get_tree().paused = false
 	get_tree().change_scene_to_file(LEVELS[0])
 
 
 func reset_health() -> void:
-	current_health = MAX_HEALTH
+	current_health = MAX_HEARTS
 	health_changed.emit(current_health)
 
 
-func damage_player(amount: int) -> void:
+## amount se ignora a propósito: en el sistema de corazones cualquier golpe
+## (bala enemiga o contacto) cuesta 1 corazón completo, sin importar cuánto
+## "daño" numérico traiga -- así Boss/Enemy pueden seguir usando distintos
+## valores de contact_damage sin tener que rebalancear nada aquí.
+func damage_player(_amount: int) -> void:
 	if current_health <= 0 or _transitioning:
 		return
-	current_health = max(0, current_health - amount)
+	current_health = max(0, current_health - 1)
 	health_changed.emit(current_health)
 	if current_health <= 0:
 		_transitioning = true

@@ -180,6 +180,37 @@ salen sincronizados. Si quieres cambiar el sonido, solo reemplaza el archivo
 `assets/audio/shoot.wav` (o cambia el `stream` del nodo `ShootSound` en el
 editor) — no hay que tocar el script.
 
+## Menú principal
+
+`Main.tscn` ahora usa tu arte de portada (`assets/backgrounds/main_menu.png`,
+"MOTOCLE SALVA A SU GÓTICA Y LA UTT" con Avelina, GLITCH.exe y Motocle) como
+fondo de pantalla completa en vez del fondo de nivel + texto genérico que
+tenía antes. Como el título ya viene dibujado en la imagen, quité las
+etiquetas de texto "MOTOCLE" / "Operación Campus"; lo único que queda encima
+es un panel semitransparente en la parte de abajo con los controles y el
+botón "Iniciar Misión", para que se lean bien sin importar qué tan cargada
+esté esa zona de la imagen. Si cambias la imagen de portada, solo reemplaza
+`assets/backgrounds/main_menu.png` — no hace falta tocar `Main.gd`.
+
+## Vida en corazones
+
+El HUD ya no usa una barra de progreso: la vida de Motocle son **3 corazones**
+(`assets/ui/heart_full.png` / `heart_empty.png`, tu ícono pixel-art). Cada golpe
+que recibe —bala enemiga o contacto directo con un enemigo o jefe— le cuesta
+**1 corazón completo**, sin importar el `contact_damage` o el `damage` de la bala
+que lo haya tocado; ese número ya no afecta a Motocle, solo sigue usándose para
+la vida de los enemigos que él dispara. Al perder un golpe, el corazón
+correspondiente (de derecha a izquierda) cambia de rojo a **negro**
+(`heart_empty.png`) en vez de vaciarse gradualmente.
+
+Esto vive en `GameManager.gd` (`MAX_HEARTS := 3`, `damage_player()` ahora resta
+1 corazón por golpe en vez del monto recibido) y en el nuevo `HUD.gd`, que
+tiene un `HBoxContainer` con 3 `TextureRect` (`Heart1/2/3` dentro de
+`HUD.tscn`) y les cambia la textura a lleno/negro según cuántos corazones
+queden. Si quieres más o menos corazones, cambia `MAX_HEARTS` en
+`GameManager.gd` y agrega/quita nodos `TextureRect` dentro de `HeartsBox` en
+`HUD.tscn` (mismo patrón que los tres que ya están).
+
 ## Daño de contacto con enemigos (corrección importante)
 
 Había un bug real: tocar a un enemigo normal (`Enemy.gd`) o a un jefe no le quitaba

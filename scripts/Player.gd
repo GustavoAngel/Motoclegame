@@ -5,7 +5,7 @@ extends CharacterBody2D
 
 const SPEED := 220.0
 const JUMP_VELOCITY := -420.0
-const GRAVITY := 1000.0
+const GRAVITY := 800.0
 const CONTACT_DAMAGE_COOLDOWN := 0.6
 
 @export var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")

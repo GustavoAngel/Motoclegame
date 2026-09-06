@@ -1,6 +1,6 @@
 extends Control
 
-@onready var start_button: Button = $VBoxContainer/StartButton
+@onready var start_button: Button = $BottomPanel/VBoxContainer/StartButton
 
 
 func _ready() -> void:
