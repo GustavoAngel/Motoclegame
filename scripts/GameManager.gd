@@ -8,6 +8,11 @@ extends Node
 ## Emite el número de corazones que le quedan a Motocle (0..MAX_HEARTS).
 signal health_changed(new_health: int)
 
+## Emite el total de monedas UTT recolectadas (no se reinicia al reintentar
+## un nivel, solo con start_new_game -- es un puntaje que persiste mientras
+## dure la partida completa).
+signal coins_changed(new_total: int)
+
 ## Vida medida en corazones: cada golpe (bala o contacto) quita 1 corazón
 ## completo, sin importar qué tanto "daño" numérico traiga el ataque --
 ## así el HUD siempre puede mostrarse como corazones llenos/vacíos.
@@ -22,6 +27,7 @@ const LEVELS := [
 ]
 
 var current_health: int = MAX_HEARTS
+var coins: int = 0
 var current_level_index: int = 0
 var _dialogue_scene := preload("res://scenes/DialogueBox.tscn")
 var _transitioning := false
@@ -30,8 +36,15 @@ var _transitioning := false
 func start_new_game() -> void:
 	current_level_index = 0
 	current_health = MAX_HEARTS
+	coins = 0
+	coins_changed.emit(coins)
 	get_tree().paused = false
 	get_tree().change_scene_to_file(LEVELS[0])
+
+
+func add_coins(amount: int = 1) -> void:
+	coins += amount
+	coins_changed.emit(coins)
 
 
 func reset_health() -> void:

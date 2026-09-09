@@ -1,5 +1,5 @@
+# MOTOCLE: Operación Campus
 
-<<<<<<< HEAD
 Plataformas 2D hecho en **Godot 4** (probado con Godot 4.3) para tu clase en la UTT.
 Motocle recorre 5 edificios del campus para rescatar a Avelina de las garras de **GLITCH.exe**.
 
@@ -16,6 +16,7 @@ Este proyecto ya se probó en modo headless con Godot 4.3 (carga de todas las es
 - Mover: flechas ← → o A / D
 - Saltar: W, ↑ o Espacio
 - Disparar: J o clic izquierdo
+- Agacharse: S o ↓
 
 ## Estructura del proyecto
 
@@ -180,6 +181,52 @@ salen sincronizados. Si quieres cambiar el sonido, solo reemplaza el archivo
 `assets/audio/shoot.wav` (o cambia el `stream` del nodo `ShootSound` en el
 editor) — no hay que tocar el script.
 
+## Monedas UTT
+
+Cada zombie (Shambler/Runner/Rotten) suelta una moneda animada al morir, con
+el ícono UTT que compartiste (`assets/sprites/coin/coin_01..13.png`). Los 13
+cuadros vienen de tu hoja de referencia y arman un giro completo: cara UTT →
+de canto → cara de estrella → de canto otra vez → de vuelta a UTT, en bucle
+continuo. La moneda (`Coin.tscn` + `Coin.gd`) aparece con un pequeño "pop" en
+el lugar donde murió el zombie, flota suavemente girando, y al tocarla
+Motocle se suma a `GameManager.coins` (nuevo contador global) y desaparece.
+
+El HUD ahora tiene una fila con el ícono de la moneda y el total acumulado
+(`Panel/CoinRow` en `HUD.tscn`), debajo de los corazones. Las monedas
+recolectadas **no se pierden al reintentar un nivel** (morir/zombificarse
+solo recarga la escena, no reinicia `GameManager.coins`) — es un puntaje que
+dura toda la partida y solo se reinicia al empezar un juego nuevo desde el
+menú principal. Por ahora las monedas son solo puntaje visual; si más
+adelante quieres que sirvan para algo (una tienda, vidas extra cada N
+monedas, etc.), `GameManager.add_coins()` es el lugar donde engancharlo.
+
+Solo los zombies sueltan moneda por ahora, como pediste — si quieres que los
+enemigos normales o los jefes también suelten, `Coin.tscn` es reutilizable:
+solo hace falta llamar `_drop_coin()`-style desde `Enemy.gd`/`Boss.gd` igual
+que en `ZombieEnemy.gd`.
+
+## Agacharse
+
+Motocle ahora puede agacharse con **S o ↓** mientras está en el suelo, usando
+tu secuencia de 10 cuadros de "low profile aiming cycle" como animación
+(`assets/sprites/crouch/crouch_01..10.png`, misma técnica de recorte que las
+demás animaciones — la escalé con el mismo factor que idle/run/jump en vez de
+normalizarla a la misma altura, para que se vea genuinamente más bajo que de
+pie y no del mismo tamaño). Un solo ciclo cubre tanto estar agachado quieto
+como caminar agachado, igual que pediste.
+
+Detalles de `Player.gd`:
+- Mientras está agachado camina a `CROUCH_SPEED` (110, la mitad de `SPEED`) y
+  no puede saltar — tiene que soltar abajo primero, como en la mayoría de
+  plataformas.
+- La cápsula de colisión se encoge de 96 a 60 de alto (mismo radio) mientras
+  está agachado, así puede entrar en huecos bajos si algún día agregas
+  plataformas con espacio limitado.
+- Al soltar la tecla de abajo, antes de pararse hace un sondeo de físicas
+  (`intersect_shape` con la forma de pie) para checar que no haya un techo
+  justo encima; si lo hay, se queda agachado hasta que haya espacio. Esto
+  ya está probado con una plataforma baja de prueba.
+
 ## Menú principal
 
 `Main.tscn` ahora usa tu arte de portada (`assets/backgrounds/main_menu.png`,
@@ -287,5 +334,3 @@ el juego sea jugable de inmediato — no son arte final. Para reemplazarlos:
 El documento `motocle_narrativa.md` (entregado por separado en la conversación) tiene
 la historia completa, los personajes y la descripción de cada nivel — útil si quieres
 mostrarlo en clase antes de jugar, o dárselo a tus alumnos como referencia de diseño.
-=======
->>>>>>> 6af59c5c68dbba06aa885376c00918a876c0a1e6
