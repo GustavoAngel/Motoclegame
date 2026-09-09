@@ -12,9 +12,10 @@ signal died
 @export var instant_kill: bool = true
 @export var anim_name: StringName = &"walk"
 @export var death_anim_name: StringName = &"death"
-@export var points: int = 100
+@export var coin_value: int = 1000  ## puntos que da la moneda que suelta al morir
 
 const AVOID_TIME := 0.35  ## cuánto tiempo se aleja de otro zombie antes de volver a perseguir
+const CoinScene := preload("res://scenes/Coin.tscn")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -26,12 +27,6 @@ var _dead: bool = false
 
 func _ready() -> void:
 	health = max_health
-	# Puntos según variante
-	if points == 100:
-		if move_speed > 70.0:
-			points = 150
-		elif max_health > 25:
-			points = 200
 	add_to_group("enemy")
 	collision_layer = 4  # ENEMY
 	collision_mask = 5   # WORLD (1) + ENEMY (4): también chocan entre ellos, no se encima
@@ -104,12 +99,20 @@ func _die() -> void:
 	collision_layer = 0
 	collision_mask = 0
 	GameManager.shake_camera(3.0)
-	GameManager.add_score(points)
 	died.emit()
+	_drop_coin()
 	# reproduce la animación de muerte y se queda como restos en el piso
 	# (AnimatedSprite2D no-loop se detiene solo en el último cuadro al terminar)
 	if sprite.sprite_frames and sprite.sprite_frames.has_animation(death_anim_name):
 		sprite.play(death_anim_name)
 	else:
 		queue_free()
+
+
+func _drop_coin() -> void:
+	var coin := CoinScene.instantiate()
+	coin.value = coin_value
+	var spawn_parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
+	spawn_parent.add_child(coin)
+	coin.global_position = global_position
 
