@@ -52,10 +52,13 @@ func _on_body_entered(body: Node) -> void:
 		body.take_damage(damage)
 		if friendly and body.is_in_group("enemy"):
 			_spawn_blood(body.global_position)
+			GameManager.shake_camera(2.2)
 	queue_free()
 
 
 func _spawn_blood(pos: Vector2) -> void:
 	var blood := _blood_scene.instantiate()
-	get_parent().add_child(blood)
+	var spawn_parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
+	spawn_parent.add_child(blood)
 	blood.global_position = pos + Vector2(0, -50)  # altura aprox. del torso
+

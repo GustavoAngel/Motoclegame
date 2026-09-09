@@ -35,4 +35,6 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	monitoring = false
 	visible = false
+	GameManager.add_score(500)
 	picked_up.emit()
+

@@ -69,18 +69,21 @@ func _shoot() -> void:
 	var bullet = bullet_scene.instantiate()
 	bullet.friendly = false
 	bullet.direction = -1 if sprite.flip_h else 1
-	get_parent().add_child(bullet)
+	var spawn_parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
+	spawn_parent.add_child(bullet)
 	bullet.global_position = global_position
 
 
 func take_damage(amount: int) -> void:
 	health -= amount
-	modulate = Color(1, 0.5, 0.5)
-	var tw := get_tree().create_timer(0.1)
-	tw.timeout.connect(func():
-		if is_instance_valid(self):
-			modulate = Color(1, 1, 1)
-	)
+	# Destello de impacto visual ("Hit Flash")
+	var tw := create_tween()
+	modulate = Color(2.5, 2.5, 2.5)
+	tw.tween_property(self, "modulate", Color.WHITE, 0.08)
 	if health <= 0:
+		GameManager.shake_camera(3.0)
+		GameManager.add_score(100)
 		died.emit()
 		queue_free()
+
+

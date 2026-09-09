@@ -111,8 +111,10 @@ func _throw_brain() -> void:
 		if diff.length() > 1.0:
 			to_target = diff.normalized()
 	bullet.velocity_vec = to_target * BRAIN_SPEED
-	get_parent().add_child(bullet)
+	var spawn_parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
+	spawn_parent.add_child(bullet)
 	bullet.global_position = spawn_pos
+	GameManager.shake_camera(2.2)
 
 
 func _on_animation_finished() -> void:
@@ -124,12 +126,14 @@ func _on_animation_finished() -> void:
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.value = health
-	modulate = Color(1, 0.5, 0.5)
-	var t := get_tree().create_timer(0.1)
-	t.timeout.connect(func():
-		if is_instance_valid(self):
-			modulate = Color(1, 1, 1)
-	)
+	# Destello de impacto visual ("Hit Flash")
+	var tw := create_tween()
+	modulate = Color(2.5, 2.5, 2.5)
+	tw.tween_property(self, "modulate", Color.WHITE, 0.08)
 	if health <= 0:
+		GameManager.shake_camera(8.5)
+		GameManager.add_score(1000)
 		defeated.emit()
 		queue_free()
+
+

@@ -1,6 +1,6 @@
-# MOTOCLE: Operación Campus
+# Motocle: Operación Campus
 
-Plataformas 2D hecho en **Godot 4** (probado con Godot 4.3) para tu clase en la UTT.
+Plataformas 2D hecho en **Godot 4** (probado con Godot 4.3+) para tu clase en la UTT.
 Motocle recorre 5 edificios del campus para rescatar a Avelina de las garras de **GLITCH.exe**.
 
 ## Cómo abrirlo
@@ -13,10 +13,27 @@ Este proyecto ya se probó en modo headless con Godot 4.3 (carga de todas las es
 
 ## Controles
 
-- Mover: flechas ← → o A / D
-- Saltar: W, ↑ o Espacio
-- Disparar: J o clic izquierdo
-- Agacharse: S o ↓
+- **Mover:** Flechas ← → o A / D (o Stick Izquierdo / D-Pad en Gamepad)
+- **Saltar:** W, ↑ o Espacio (o Botón A / Cruz en Gamepad)
+  - *Soporta salto variable:* mantener presionado para saltar más alto, o pulsar rápido para un salto corto.
+  - *Asistencias de juego profesional:* incluye **Coyote Time** (salto al dejar repisas) y **Jump Buffer** (registro anticipado de salto).
+- **Agacharse y Gatear:** Mantener S o Flecha ↓ (o D-Pad Abajo en Gamepad) + moverse con A/D o flechas
+  - Reduce la hitbox de Motocle a la mitad para esquivar proyectiles que vuelen alto.
+  - Permite desplazarse a velocidad táctica (duck-walk / gateo) manteniendo la silueta baja.
+  - Permite disparar a ras del suelo mientras estás agachado.
+
+- **Disparar:** J o Clic Izquierdo (o Botón X / Cuadrado en Gamepad)
+- **Pausa:** Escape o P (o Botón Start en Gamepad, o clic en botón `⏸` del HUD)
+  - Despliega el menú de pausa con opciones de Reanudar, Reiniciar Nivel y Menú Principal.
+
+## Sistema de Puntuación
+- Ardilla Zombie Shambler: +100 pts
+- Ardilla Zombie Runner: +150 pts
+- Ardilla Zombie Rotten: +200 pts
+- Enemigos regulares: +100 pts
+- Fragmento de Avelina: +500 pts
+- Jefes de nivel: +1,000 pts
+
 
 ## Estructura del proyecto
 
@@ -32,10 +49,14 @@ scripts/
   Fragment.gd             -> el fragmento holográfico de Avelina que aparece tras vencer al jefe
   ExitDoor.gd              -> puerta de salida, se activa al recoger el fragmento
   Level.gd                  -> conecta jefe -> fragmento -> diálogo -> salida en cada nivel
-  HUD.gd, Main.gd, WinScreen.gd, DialogueBox.gd -> interfaz
+  LoadingScreen.gd          -> pantalla de carga táctica y briefing de misión por edificio
+  HUD.gd, Main.gd, WinScreen.gd, DialogueBox.gd, PauseMenu.gd -> interfaz
 scenes/
   Main.tscn              -> menú principal
+  LoadingScreen.tscn     -> pantalla de carga y briefing entre niveles
+  PauseMenu.tscn         -> menú de pausa con reanudar, reiniciar y menú principal
   Player.tscn, Enemy.tscn, Boss.tscn, Bullet.tscn, Fragment.tscn, ExitDoor.tscn, Platform.tscn, HUD.tscn, DialogueBox.tscn -> piezas reutilizables
+
   ZombieShambler.tscn, ZombieRunner.tscn, ZombieRotten.tscn -> los 3 tipos de zombie de la horda del nivel 1
   Level1_Sistemas.tscn, Level2_Biblioteca.tscn, Level3_Cafeteria.tscn, Level4_Auditorio.tscn, Level5_ElH.tscn -> los 5 niveles
   WinScreen.tscn          -> pantalla de victoria
@@ -180,52 +201,6 @@ dentro de `Player.tscn`; `Player.gd` lo reproduce (`shoot_sound.play()`) en
 salen sincronizados. Si quieres cambiar el sonido, solo reemplaza el archivo
 `assets/audio/shoot.wav` (o cambia el `stream` del nodo `ShootSound` en el
 editor) — no hay que tocar el script.
-
-## Monedas UTT
-
-Cada zombie (Shambler/Runner/Rotten) suelta una moneda animada al morir, con
-el ícono UTT que compartiste (`assets/sprites/coin/coin_01..13.png`). Los 13
-cuadros vienen de tu hoja de referencia y arman un giro completo: cara UTT →
-de canto → cara de estrella → de canto otra vez → de vuelta a UTT, en bucle
-continuo. La moneda (`Coin.tscn` + `Coin.gd`) aparece con un pequeño "pop" en
-el lugar donde murió el zombie, flota suavemente girando, y al tocarla
-Motocle se suma a `GameManager.coins` (nuevo contador global) y desaparece.
-
-El HUD ahora tiene una fila con el ícono de la moneda y el total acumulado
-(`Panel/CoinRow` en `HUD.tscn`), debajo de los corazones. Las monedas
-recolectadas **no se pierden al reintentar un nivel** (morir/zombificarse
-solo recarga la escena, no reinicia `GameManager.coins`) — es un puntaje que
-dura toda la partida y solo se reinicia al empezar un juego nuevo desde el
-menú principal. Por ahora las monedas son solo puntaje visual; si más
-adelante quieres que sirvan para algo (una tienda, vidas extra cada N
-monedas, etc.), `GameManager.add_coins()` es el lugar donde engancharlo.
-
-Solo los zombies sueltan moneda por ahora, como pediste — si quieres que los
-enemigos normales o los jefes también suelten, `Coin.tscn` es reutilizable:
-solo hace falta llamar `_drop_coin()`-style desde `Enemy.gd`/`Boss.gd` igual
-que en `ZombieEnemy.gd`.
-
-## Agacharse
-
-Motocle ahora puede agacharse con **S o ↓** mientras está en el suelo, usando
-tu secuencia de 10 cuadros de "low profile aiming cycle" como animación
-(`assets/sprites/crouch/crouch_01..10.png`, misma técnica de recorte que las
-demás animaciones — la escalé con el mismo factor que idle/run/jump en vez de
-normalizarla a la misma altura, para que se vea genuinamente más bajo que de
-pie y no del mismo tamaño). Un solo ciclo cubre tanto estar agachado quieto
-como caminar agachado, igual que pediste.
-
-Detalles de `Player.gd`:
-- Mientras está agachado camina a `CROUCH_SPEED` (110, la mitad de `SPEED`) y
-  no puede saltar — tiene que soltar abajo primero, como en la mayoría de
-  plataformas.
-- La cápsula de colisión se encoge de 96 a 60 de alto (mismo radio) mientras
-  está agachado, así puede entrar en huecos bajos si algún día agregas
-  plataformas con espacio limitado.
-- Al soltar la tecla de abajo, antes de pararse hace un sondeo de físicas
-  (`intersect_shape` con la forma de pie) para checar que no haya un techo
-  justo encima; si lo hay, se queda agachado hasta que haya espacio. Esto
-  ya está probado con una plataforma baja de prueba.
 
 ## Menú principal
 

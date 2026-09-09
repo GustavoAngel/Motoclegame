@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motocle - Visor de Animaciones (Agacharse y Caminar Agachado)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0c0f17;
+      --bg-panel: #141a29;
+      --bg-card: #1b2336;
+      --accent: #ffb830;
+      --accent-cyan: #38ef7d;
+      --accent-blue: #00c6ff;
+      --accent-red: #ff4757;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+      --border: #2d3748;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #172138 0%, var(--bg-main) 100%);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      color: var(--text-dim);
+      font-size: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+    }
+
+    .preview-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-dim);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      background: #232d44;
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(255, 184, 48, 0.2) 0%, rgba(255, 184, 48, 0.05) 100%);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 16px rgba(255, 184, 48, 0.15);
+    }
+
+    .viewport-box {
+      background: repeating-linear-gradient(45deg, #101624, #101624 12px, #141c2e 12px, #141c2e 24px);
+      border: 2px dashed #28334b;
+      border-radius: 12px;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ground-line {
+      position: absolute;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255, 71, 87, 0.6);
+      z-index: 1;
+    }
+
+    .ground-line::after {
+      content: 'Suelo (Baseline Y=160)';
+      position: absolute;
+      right: 12px;
+      top: -18px;
+      font-size: 0.75rem;
+      color: var(--accent-red);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    #spriteCanvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      z-index: 2;
+      transition: transform 0.1s ease;
+    }
+
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ctrl-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .ctrl-btn:hover {
+      background: #27344f;
+      border-color: #4a5d80;
+    }
+
+    .ctrl-btn.primary {
+      background: var(--accent);
+      color: #0c0f17;
+      border-color: var(--accent);
+    }
+
+    .ctrl-btn.primary:hover {
+      background: #ffc857;
+    }
+
+    .slider-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .slider-box input[type="range"] {
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .info-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .info-section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .spec-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .spec-table td:first-child {
+      color: var(--text-dim);
+    }
+
+    .spec-table td:last-child {
+      color: #fff;
+      text-align: right;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(0, 198, 255, 0.15);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .frames-strip {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .strip-header {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .strip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .strip-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .strip-item:hover, .strip-item.current {
+      border-color: var(--accent);
+      background: rgba(255, 184, 48, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .strip-item img {
+      width: 100%;
+      height: 100px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    .strip-item span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+
+    .toggle-row input {
+      accent-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Motocle Commando - Suite de Animación</h1>
+    <p class="subtitle">Inspección de frames pixel art para Agacharse y Caminar Agachado (Godot 4 2D Platformer)</p>
+  </header>
+
+  <div class="container">
+    <div class="preview-card">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchAnim('crouch_walk')">🚶 Caminar Agachado (6 frames)</button>
+        <button class="tab-btn" onclick="switchAnim('crouch')">🛡️ Agacharse / Reposo (4 frames)</button>
+      </div>
+
+      <div class="viewport-box">
+        <div class="ground-line"></div>
+        <canvas id="spriteCanvas" width="195" height="166"></canvas>
+      </div>
+
+      <div class="controls-bar">
+        <div class="btn-group">
+          <button class="ctrl-btn primary" id="playBtn" onclick="togglePlay()">⏸ Pausar</button>
+          <button class="ctrl-btn" onclick="stepFrame(-1)">⏮ Anterior</button>
+          <button class="ctrl-btn" onclick="stepFrame(1)">Siguiente ⏭</button>
+        </div>
+
+        <div class="slider-box">
+          <span>Velocidad:</span>
+          <input type="range" id="fpsRange" min="2" max="18" value="8" oninput="changeFps(this.value)">
+          <span id="fpsLabel" style="font-family: 'JetBrains Mono'; font-weight: 700; color: #fff;">8 FPS</span>
+        </div>
+
+        <div class="slider-box">
+          <span>Zoom:</span>
+          <input type="range" id="zoomRange" min="1" max="3" step="0.5" value="1.8" oninput="changeZoom(this.value)">
+          <span id="zoomLabel" style="font-family: 'JetBrains Mono'; font-weight: 700; color: #fff;">1.8x</span>
+        </div>
+
+        <label class="toggle-row">
+          <input type="checkbox" id="hitboxToggle" checked onchange="renderCurrent()">
+          <span>Mostrar Hitbox (46px)</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-section">
+        <h3>📊 Estado Actual</h3>
+        <table class="spec-table">
+          <tr><td>Animación</td><td id="infoAnim" style="color: var(--accent);">crouch_walk</td></tr>
+          <tr><td>Frame actual</td><td id="infoFrame">Paso 1 / 6</td></tr>
+          <tr><td>Archivo PNG</td><td id="infoFile">crouch_walk_01.png</td></tr>
+          <tr><td>Resolución frame</td><td>195 x 166 px</td></tr>
+          <tr><td>Baseline suelo</td><td>Y = 160 px</td></tr>
+        </table>
+      </div>
+
+      <div class="info-section">
+        <h3>🎯 Configuración Godot</h3>
+        <table class="spec-table">
+          <tr><td>CollisionShape2D</td><td>CapsuleShape2D</td></tr>
+          <tr><td>Hitbox altura</td><td>46.0 px (50% normal)</td></tr>
+          <tr><td>Hitbox Y offset</td><td>-23.0 px</td></tr>
+          <tr><td>Muzzle Y (cañón)</td><td>-34.0 px</td></tr>
+          <tr><td>Velocidad Gateo</td><td>105.0 px/s</td></tr>
+        </table>
+      </div>
+
+      <div class="info-section">
+        <h3>💡 Integración</h3>
+        <p style="font-size: 0.8rem; color: var(--text-dim); line-height: 1.4;">
+          Cada frame está recortado y alineado con fondo 100% transparente. Al entrar en agachado, se reproduce la secuencia acompasada con la física del personaje.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="frames-strip">
+    <div class="strip-header">
+      <span id="stripTitle">Desglose de Frames</span>
+      <span class="badge" id="stripBadge">10 FRAMES DISPONIBLES</span>
+    </div>
+    <div class="strip-grid" id="stripGrid"></div>
+  </div>
+
+  <script>
+    const anims = {
+      crouch_walk: {
+        name: "Caminar Agachado (crouch_walk) - 10 Frames Ultra-Fluido",
+        fps: 12,
+        frames: [
+          { src: "crouch_walk/crouch_walk_01.png", tag: "01: Apoyo y avance bajo" },
+          { src: "crouch_walk/crouch_walk_02.png", tag: "02: Tracción pierna derecha" },
+          { src: "crouch_walk/crouch_walk_03.png", tag: "03: Deslizamiento frontal" },
+          { src: "crouch_walk/crouch_walk_04.png", tag: "04: Empuje medio" },
+          { src: "crouch_walk/crouch_walk_05.png", tag: "05: Transición de paso" },
+          { src: "crouch_walk/crouch_walk_06.png", tag: "06: Elevación y braceo" },
+          { src: "crouch_walk/crouch_walk_07.png", tag: "07: Extensión pierna opuesta" },
+          { src: "crouch_walk/crouch_walk_08.png", tag: "08: Contacto y tracción" },
+          { src: "crouch_walk/crouch_walk_09.png", tag: "09: Impulso final bajo" },
+          { src: "crouch_walk/crouch_walk_10.png", tag: "10: Cierre fluido de ciclo" }
+        ]
+      },
+      crouch: {
+        name: "Agacharse / Reposo (crouch) - 4 Frames",
+        fps: 6,
+        frames: [
+          { src: "crouch/crouch_01.png", tag: "01: Posición táctica apuntando" },
+          { src: "crouch/crouch_02.png", tag: "02: Respiración táctica A" },
+          { src: "crouch/crouch_03.png", tag: "03: Respiración táctica B" },
+          { src: "crouch/crouch_04.png", tag: "04: Respiración táctica C" }
+        ]
+      }
+    };
+
+    let currentAnimKey = "crouch_walk";
+    let currentFrameIdx = 0;
+    let isPlaying = true;
+    let timer = null;
+    let fps = 12;
+    let zoom = 1.8;
+
+    const canvas = document.getElementById("spriteCanvas");
+    const ctx = canvas.getContext("2d");
+    const loadedImages = {};
+
+    function preloadAll() {
+      for (const k in anims) {
+        anims[k].frames.forEach(f => {
+          if (!loadedImages[f.src]) {
+            const img = new Image();
+            img.src = f.src;
+            img.onload = () => renderCurrent();
+            loadedImages[f.src] = img;
+          }
+        });
+      }
+    }
+
+    function switchAnim(key) {
+      currentAnimKey = key;
+      currentFrameIdx = 0;
+      fps = anims[key].fps;
+      document.getElementById("fpsRange").value = fps;
+      document.getElementById("fpsLabel").innerText = fps + " FPS";
+
+      document.querySelectorAll(".tab-btn").forEach((b, idx) => {
+        b.classList.toggle("active", (key === 'crouch_walk' && idx === 0) || (key === 'crouch' && idx === 1));
+      });
+
+      renderStrip();
+      startLoop();
+      renderCurrent();
+    }
+
+    function renderStrip() {
+      const anim = anims[currentAnimKey];
+      document.getElementById("stripTitle").innerText = anim.name;
+      document.getElementById("stripBadge").innerText = anim.frames.length + " FRAMES";
+
+      const grid = document.getElementById("stripGrid");
+      grid.innerHTML = "";
+      anim.frames.forEach((f, idx) => {
+        const item = document.createElement("div");
+        item.className = "strip-item" + (idx === currentFrameIdx ? " current" : "");
+        item.onclick = () => {
+          currentFrameIdx = idx;
+          isPlaying = false;
+          updatePlayBtn();
+          renderCurrent();
+        };
+        item.innerHTML = `
+          <img src="${f.src}" alt="Frame ${idx+1}">
+          <span>${f.tag}</span>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function renderCurrent() {
+      const anim = anims[currentAnimKey];
+      const frameObj = anim.frames[currentFrameIdx];
+      const img = loadedImages[frameObj.src];
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (img && img.complete) {
+        ctx.drawImage(img, 0, 0);
+      }
+
+      // Hitbox overlay
+      if (document.getElementById("hitboxToggle").checked) {
+        ctx.save();
+        ctx.strokeStyle = "rgba(0, 198, 255, 0.75)";
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+
+        // Capsule hitbox representation for crouching
+        const cx = canvas.width / 2;
+        const cy = 160 - 23; // center
+        const r = 22;
+        const h = 46;
+
+        ctx.strokeRect(cx - r, cy - h/2, r * 2, h);
+
+        // Muzzle marker
+        ctx.fillStyle = "rgba(255, 71, 87, 0.9)";
+        ctx.beginPath();
+        ctx.arc(cx + 38, cy - 11, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      // Update info
+      document.getElementById("infoAnim").innerText = currentAnimKey;
+      document.getElementById("infoFrame").innerText = `${currentFrameIdx + 1} / ${anim.frames.length}`;
+      document.getElementById("infoFile").innerText = frameObj.src.split('/').pop();
+
+      // Highlight in strip
+      const stripItems = document.querySelectorAll(".strip-item");
+      stripItems.forEach((el, idx) => {
+        el.classList.toggle("current", idx === currentFrameIdx);
+      });
+    }
+
+    function startLoop() {
+      if (timer) clearInterval(timer);
+      if (!isPlaying) return;
+      timer = setInterval(() => {
+        const anim = anims[currentAnimKey];
+        currentFrameIdx = (currentFrameIdx + 1) % anim.frames.length;
+        renderCurrent();
+      }, 1000 / fps);
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      updatePlayBtn();
+      if (isPlaying) startLoop();
+      else clearInterval(timer);
+    }
+
+    function updatePlayBtn() {
+      document.getElementById("playBtn").innerText = isPlaying ? "⏸ Pausar" : "▶ Reproducir";
+    }
+
+    function stepFrame(dir) {
+      isPlaying = false;
+      updatePlayBtn();
+      clearInterval(timer);
+      const anim = anims[currentAnimKey];
+      currentFrameIdx = (currentFrameIdx + dir + anim.frames.length) % anim.frames.length;
+      renderCurrent();
+    }
+
+    function changeFps(val) {
+      fps = parseInt(val);
+      document.getElementById("fpsLabel").innerText = fps + " FPS";
+      if (isPlaying) startLoop();
+    }
+
+    function changeZoom(val) {
+      zoom = parseFloat(val);
+      document.getElementById("zoomLabel").innerText = zoom + "x";
+      canvas.style.transform = `scale(${zoom})`;
+    }
+
+    // Init
+    preloadAll();
+    renderStrip();
+    changeZoom(1.8);
+    startLoop();
+  </script>
+</body>
+</html>

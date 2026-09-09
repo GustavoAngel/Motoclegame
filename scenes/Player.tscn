@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3]
+[gd_scene load_steps=50 format=3]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/motocle.png" id="2"]
@@ -37,12 +37,16 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_02.png" id="35"]
 [ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_03.png" id="36"]
 [ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_04.png" id="37"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_05.png" id="38"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_06.png" id="39"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_07.png" id="40"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_08.png" id="41"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_09.png" id="42"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_10.png" id="43"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_01.png" id="38"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_02.png" id="39"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_03.png" id="40"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_04.png" id="41"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_05.png" id="42"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_06.png" id="43"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_07.png" id="44"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_08.png" id="45"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_09.png" id="46"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_10.png" id="47"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
 radius = 22.0
@@ -172,7 +176,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("37")
+}],
+"loop": true,
+"name": &"crouch",
+"speed": 6.0
 }, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("38")
 }, {
@@ -190,10 +199,22 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("43")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47")
 }],
 "loop": true,
-"name": &"crouch",
-"speed": 10.0
+"name": &"crouch_walk",
+"speed": 12.0
 }]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]

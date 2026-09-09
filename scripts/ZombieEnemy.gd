@@ -12,9 +12,7 @@ signal died
 @export var instant_kill: bool = true
 @export var anim_name: StringName = &"walk"
 @export var death_anim_name: StringName = &"death"
-@export var coin_value: int = 1
-
-const CoinScene := preload("res://scenes/Coin.tscn")
+@export var points: int = 100
 
 const AVOID_TIME := 0.35  ## cuánto tiempo se aleja de otro zombie antes de volver a perseguir
 
@@ -28,6 +26,12 @@ var _dead: bool = false
 
 func _ready() -> void:
 	health = max_health
+	# Puntos según variante
+	if points == 100:
+		if move_speed > 70.0:
+			points = 150
+		elif max_health > 25:
+			points = 200
 	add_to_group("enemy")
 	collision_layer = 4  # ENEMY
 	collision_mask = 5   # WORLD (1) + ENEMY (4): también chocan entre ellos, no se encima
@@ -84,12 +88,10 @@ func take_damage(amount: int) -> void:
 	if _dead:
 		return
 	health -= amount
-	modulate = Color(1, 0.5, 0.5)
-	var t := get_tree().create_timer(0.1)
-	t.timeout.connect(func():
-		if is_instance_valid(self) and not _dead:
-			modulate = Color(1, 1, 1)
-	)
+	# Destello de impacto visual ("Hit Flash" blanco brillante arcade)
+	var tw := create_tween()
+	modulate = Color(2.5, 2.5, 2.5)
+	tw.tween_property(self, "modulate", Color.WHITE, 0.08)
 	if health <= 0:
 		_die()
 
@@ -101,8 +103,9 @@ func _die() -> void:
 	remove_from_group("enemy")
 	collision_layer = 0
 	collision_mask = 0
+	GameManager.shake_camera(3.0)
+	GameManager.add_score(points)
 	died.emit()
-	_drop_coin()
 	# reproduce la animación de muerte y se queda como restos en el piso
 	# (AnimatedSprite2D no-loop se detiene solo en el último cuadro al terminar)
 	if sprite.sprite_frames and sprite.sprite_frames.has_animation(death_anim_name):
@@ -110,9 +113,3 @@ func _die() -> void:
 	else:
 		queue_free()
 
-
-func _drop_coin() -> void:
-	var coin := CoinScene.instantiate()
-	coin.value = coin_value
-	get_parent().add_child(coin)
-	coin.global_position = global_position
