@@ -12,6 +12,9 @@ signal died
 @export var instant_kill: bool = true
 @export var anim_name: StringName = &"walk"
 @export var death_anim_name: StringName = &"death"
+@export var coin_value: int = 1
+
+const CoinScene := preload("res://scenes/Coin.tscn")
 
 const AVOID_TIME := 0.35  ## cuánto tiempo se aleja de otro zombie antes de volver a perseguir
 
@@ -99,9 +102,17 @@ func _die() -> void:
 	collision_layer = 0
 	collision_mask = 0
 	died.emit()
+	_drop_coin()
 	# reproduce la animación de muerte y se queda como restos en el piso
 	# (AnimatedSprite2D no-loop se detiene solo en el último cuadro al terminar)
 	if sprite.sprite_frames and sprite.sprite_frames.has_animation(death_anim_name):
 		sprite.play(death_anim_name)
 	else:
 		queue_free()
+
+
+func _drop_coin() -> void:
+	var coin := CoinScene.instantiate()
+	coin.value = coin_value
+	get_parent().add_child(coin)
+	coin.global_position = global_position
