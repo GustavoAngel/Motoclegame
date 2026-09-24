@@ -1,27 +1,32 @@
 extends CharacterBody2D
 ## Jefe del nivel 2: Dr. Genérico (antes "El Catálogo Central"). Igual que
-## Boss.gd en vida/patrulla/disparo en ráfaga, pero usa AnimatedSprite2D con
-## un ciclo de caminata de 2 cuadros en vez de una sola textura estática.
+## Boss.gd en vida/patrulla, pero usa AnimatedSprite2D con un ciclo de
+## caminata de 2 cuadros en vez de una sola textura estática.
+## No dispara: su único ataque es girar sobre sí mismo y arrojar mini
+## versiones de sí mismo, que explotan al tocar el suelo.
 
 signal defeated
 
 @export var max_health: int = 150
 @export var patrol_range: float = 60.0
 @export var move_speed: float = 25.0
-@export var shoot_interval: float = 1.8
-@export var burst_count: int = 3
 @export var contact_damage: int = 15
 @export var boss_name: String = "Dr. Genérico"
+@export var spin_interval: float = 3.5    ## cada cuántos segundos repite el ataque giratorio
+@export var spin_duration: float = 1.4    ## duración de las vueltas
+@export var mini_count: int = 4           ## cuántas mini versiones arroja por giro
+
+const MiniDoctorScene := preload("res://scenes/MiniDoctor.tscn")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var shoot_timer: Timer = $ShootTimer
+@onready var spin_timer: Timer = $SpinTimer
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var name_label: Label = $NameLabel
 
-var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")
 var health: int
 var _start_x: float
 var _direction := 1
+var _spinning := false
 
 
 func _ready() -> void:
@@ -34,9 +39,9 @@ func _ready() -> void:
 	health_bar.max_value = max_health
 	health_bar.value = health
 	name_label.text = boss_name
-	shoot_timer.wait_time = shoot_interval
-	shoot_timer.timeout.connect(_shoot_burst)
-	shoot_timer.start()
+	spin_timer.wait_time = spin_interval
+	spin_timer.timeout.connect(_start_spin)
+	spin_timer.start()
 	if sprite.sprite_frames and sprite.sprite_frames.has_animation(&"walk"):
 		sprite.play(&"walk")
 
@@ -46,6 +51,12 @@ func _physics_process(delta: float) -> void:
 		velocity.y += 900 * delta
 	else:
 		velocity.y = 0
+
+	if _spinning:
+		velocity.x = 0
+		move_and_slide()
+		return
+
 	velocity.x = _direction * move_speed
 	move_and_slide()
 
@@ -67,17 +78,37 @@ func _physics_process(delta: float) -> void:
 			break
 
 
-func _shoot_burst() -> void:
-	for i in burst_count:
-		await get_tree().create_timer(0.15 * i).timeout
+## Único ataque del jefe: da vueltas sobre sí mismo y, mientras gira, va
+## arrojando mini versiones de sí mismo en distintas direcciones. Cada una
+## vuela en arco por gravedad y explota al tocar el suelo (ver MiniDoctor.gd).
+func _start_spin() -> void:
+	if _spinning or not is_instance_valid(self):
+		return
+	_spinning = true
+	var tw := create_tween()
+	tw.tween_property(sprite, "rotation", TAU * 2.0, spin_duration).set_trans(Tween.TRANS_LINEAR)
+	_throw_minis()
+	await tw.finished
+	if not is_instance_valid(self):
+		return
+	sprite.rotation = 0.0
+	_spinning = false
+
+
+func _throw_minis() -> void:
+	var step: float = spin_duration / float(mini_count + 1)
+	for i in mini_count:
+		await get_tree().create_timer(step).timeout
 		if not is_instance_valid(self):
 			return
-		var bullet = bullet_scene.instantiate()
-		bullet.friendly = false
-		bullet.direction = -1 if sprite.flip_h else 1
+		var t: float = float(i) / float(max(mini_count - 1, 1))
+		var vx: float = lerp(-150.0, 150.0, t)
+		var mini := MiniDoctorScene.instantiate()
 		var spawn_parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
-		spawn_parent.add_child(bullet)
-		bullet.global_position = global_position
+		spawn_parent.add_child(mini)
+		mini.global_position = global_position + Vector2(0, -60)
+		mini.launch_velocity = Vector2(vx, -320.0)
+	GameManager.shake_camera(3.0)
 
 
 func take_damage(amount: int) -> void:

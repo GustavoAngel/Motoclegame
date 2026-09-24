@@ -37,8 +37,8 @@ autoplay = "walk"
 position = Vector2(0, -45)
 shape = SubResource("RectangleShape2D_1")
 
-[node name="ShootTimer" type="Timer" parent="."]
-wait_time = 1.8
+[node name="SpinTimer" type="Timer" parent="."]
+wait_time = 3.5
 
 [node name="NameLabel" type="Label" parent="."]
 offset_left = -70.0

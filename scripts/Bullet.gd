@@ -26,6 +26,8 @@ func _ready() -> void:
 		sprite.texture = _friendly_texture if friendly else _enemy_texture
 	if velocity_vec != Vector2.ZERO:
 		sprite.flip_h = velocity_vec.x < 0
+		if not spin:
+			rotation = velocity_vec.angle()  # orienta el sprite según la dirección del disparo (p.ej. hacia abajo)
 	else:
 		sprite.flip_h = direction < 0
 	if friendly:

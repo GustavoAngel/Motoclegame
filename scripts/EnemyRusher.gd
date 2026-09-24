@@ -50,24 +50,33 @@ func _physics_process(delta: float) -> void:
 		_avoid_timer -= delta
 		velocity.x = _avoid_dir * move_speed
 		sprite.flip_h = _avoid_dir < 0
+		_play_anim(&"walk")
 	else:
-		var player := get_tree().get_first_node_in_group("player")
-		if player and abs(player.global_position.x - global_position.x) <= chase_range:
-			# Motocle está cerca: se lanza directo contra él
+		var player := get_tree().get_first_node_in_group("player") as Node2D
+		var is_charging: bool = player != null and abs(player.global_position.x - global_position.x) <= chase_range
+		if is_charging:
+			# Motocle está cerca: se lanza directo contra él, "tacleándolo"
 			var dir: float = sign(player.global_position.x - global_position.x)
 			if dir != 0.0:
 				_direction = dir
+			_play_anim(&"tackle")
 		else:
 			# Sin objetivo a la vista: patrulla cerca de su punto de origen
 			if position.x > _start_x + patrol_range:
 				_direction = -1.0
 			elif position.x < _start_x - patrol_range:
 				_direction = 1.0
+			_play_anim(&"walk")
 		sprite.flip_h = _direction < 0
 		velocity.x = _direction * move_speed
 
 	move_and_slide()
 	_check_enemy_collision()
+
+
+func _play_anim(anim_name: StringName) -> void:
+	if sprite.sprite_frames and sprite.sprite_frames.has_animation(anim_name) and sprite.animation != anim_name:
+		sprite.play(anim_name)
 
 
 func _check_enemy_collision() -> void:

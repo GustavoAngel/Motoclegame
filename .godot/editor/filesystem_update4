@@ -1,1 +1,6 @@
 res://scripts/GameManager.gd
+res://scripts/BossDoctor.gd
+res://scripts/EnemyRusher.gd
+res://scripts/Bullet.gd
+res://scripts/Player.gd
+res://scripts/ZombieBoss.gd

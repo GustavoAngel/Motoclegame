@@ -41,6 +41,17 @@ animations = [{
 "loop": false,
 "name": &"death",
 "speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7")
+}],
+"loop": true,
+"name": &"tackle",
+"speed": 7.0
 }]
 
 [node name="EnemyRusher" type="CharacterBody2D"]

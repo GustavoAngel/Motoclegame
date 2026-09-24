@@ -1,15 +1,13 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/bg_farmacia.png" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://scenes/Enemy.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/BossDoctor.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://scenes/Fragment.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://scenes/ExitDoor.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="9"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemy_book.png" id="10"]
 [ext_resource type="PackedScene" path="res://scenes/EnemyRusher.tscn" id="12"]
 
 [node name="Level2_Biblioteca" type="Node2D"]
@@ -46,33 +44,6 @@ scale = Vector2(2, 1)
 
 [node name="Player" parent="." instance=ExtResource("4")]
 position = Vector2(80, 480)
-
-[node name="Enemy1" parent="." instance=ExtResource("5")]
-position = Vector2(350, 418)
-sprite_texture = ExtResource("10")
-max_health = 22
-move_speed = 45.0
-patrol_range = 90.0
-shoot_interval = 2.1
-contact_damage = 8
-
-[node name="Enemy2" parent="." instance=ExtResource("5")]
-position = Vector2(950, 418)
-sprite_texture = ExtResource("10")
-max_health = 22
-move_speed = 45.0
-patrol_range = 90.0
-shoot_interval = 2.1
-contact_damage = 8
-
-[node name="Enemy3" parent="." instance=ExtResource("5")]
-position = Vector2(1150, 532)
-sprite_texture = ExtResource("10")
-max_health = 22
-move_speed = 45.0
-patrol_range = 90.0
-shoot_interval = 2.1
-contact_damage = 8
 
 [node name="Boss" parent="." instance=ExtResource("6")]
 position = Vector2(1450, 532)

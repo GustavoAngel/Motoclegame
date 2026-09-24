@@ -25,12 +25,15 @@ const JUMP_BUFFER_TIME := 0.10  ## Segundos que recuerda la orden de salto antes
 # Combate
 const CONTACT_DAMAGE_COOLDOWN := 0.6
 const RECOIL_AIR_IMPULSE := 40.0
+const DOWN_BULLET_SPEED := 480.0  ## velocidad del disparo cuando apunta hacia abajo en el aire
+const SHOOT_DOWN_FLASH_TIME := 0.12  ## cuánto se muestra el frame con destello al disparar hacia abajo
 
 @export var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var muzzle: Marker2D = $Muzzle
+@onready var muzzle_down: Marker2D = $MuzzleDown
 @onready var shoot_cooldown: Timer = $ShootCooldown
 @onready var contact_cooldown: Timer = $ContactCooldown
 @onready var shoot_sound: AudioStreamPlayer2D = $ShootSound
@@ -46,6 +49,8 @@ var _initial_sprite_y := -56.0
 var _initial_col_y := -48.0
 var _initial_col_height := 96.0
 var _capsule_shape: CapsuleShape2D
+var _aiming_down_air := false     ## en el aire y con "abajo" presionado (apunta/dispara hacia el suelo)
+var _shoot_down_timer := 0.0      ## cuenta regresiva del frame de destello al disparar hacia abajo
 
 
 func _ready() -> void:
@@ -84,11 +89,17 @@ func _physics_process(delta: float) -> void:
 		facing = int(sign(dir))
 		sprite.flip_h = facing < 0
 		muzzle.position.x = abs(muzzle.position.x) * facing
+		muzzle_down.position.x = abs(muzzle_down.position.x) * facing
 		var accel := ACCELERATION if is_on_floor() else AIR_ACCEL
 		velocity.x = move_toward(velocity.x, dir * max_speed, accel * delta)
 	else:
 		var friction := FRICTION if is_on_floor() else AIR_FRICTION
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+
+	# 3b. Apuntar hacia abajo en el aire (salto + abajo): habilita disparo vertical
+	_aiming_down_air = not is_on_floor() and _is_crouch_pressed()
+	if _shoot_down_timer > 0.0:
+		_shoot_down_timer -= delta
 
 
 	# 4. Buffer de salto (no se permite saltar mientras está agachado)
@@ -164,6 +175,13 @@ func _get_horizontal_axis() -> float:
 
 
 func _update_animation(dir: float) -> void:
+	if _aiming_down_air:
+		sprite.speed_scale = 1.0
+		var desired := &"shoot_down_air" if _shoot_down_timer > 0.0 else &"aim_down_air"
+		if sprite.animation != desired:
+			sprite.play(desired)
+		return
+
 	if is_crouching:
 		if dir != 0.0:
 			if sprite.animation != &"crouch_walk":
@@ -243,25 +261,33 @@ func _shoot() -> void:
 	# Instanciar bala en la raíz de la escena para independizarla de jerarquías
 	var bullet = bullet_scene.instantiate()
 	bullet.friendly = true
-	bullet.direction = facing
 
 	var spawn_parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
 	spawn_parent.add_child(bullet)
-	bullet.global_position = muzzle.global_position
 
-	# Combat Juice: Retroceso visual en el sprite
-	var recoil_offset := -facing * 4.0
-	var tween := create_tween()
-	sprite.position.x = _initial_sprite_x + recoil_offset
-	tween.tween_property(sprite, "position:x", _initial_sprite_x, 0.08)
+	if _aiming_down_air:
+		# Disparo vertical: salta + abajo dispara directo hacia el suelo
+		bullet.direction = facing
+		bullet.velocity_vec = Vector2(0.0, DOWN_BULLET_SPEED)
+		bullet.global_position = muzzle_down.global_position
+		_shoot_down_timer = SHOOT_DOWN_FLASH_TIME
+	else:
+		bullet.direction = facing
+		bullet.global_position = muzzle.global_position
+
+		# Combat Juice: Retroceso visual en el sprite (solo en disparo horizontal)
+		var recoil_offset := -facing * 4.0
+		var tween := create_tween()
+		sprite.position.x = _initial_sprite_x + recoil_offset
+		tween.tween_property(sprite, "position:x", _initial_sprite_x, 0.08)
 
 	# Muzzle flash sutil (destello blanco cálido)
 	sprite.modulate = Color(1.3, 1.3, 1.1)
 	var flash_tween := create_tween()
 	flash_tween.tween_property(sprite, "modulate", Color.WHITE, 0.06)
 
-	# Retroceso físico ligero si dispara en el aire
-	if not is_on_floor():
+	# Retroceso físico ligero si dispara en el aire (disparo horizontal)
+	if not is_on_floor() and not _aiming_down_air:
 		velocity.x -= facing * RECOIL_AIR_IMPULSE
 
 	# Sacudida sutil de cámara al disparar
