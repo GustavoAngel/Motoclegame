@@ -76,6 +76,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if current_scene and not (current_scene.name == "Main" or current_scene.name == "WinScreen"):
 			get_viewport().set_input_as_handled()
 			toggle_pause()
+		return
+
+	# Atajo de prueba: la tecla X salta directo al siguiente nivel.
+	if event is InputEventKey and event.pressed and event.keycode == KEY_X and not get_tree().paused:
+		var current_scene = get_tree().current_scene
+		if current_scene and not (current_scene.name == "Main" or current_scene.name == "WinScreen"):
+			get_viewport().set_input_as_handled()
+			go_to_next_level()
 
 
 func _setup_default_inputs() -> void:
