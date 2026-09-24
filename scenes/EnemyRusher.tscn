@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="Script" path="res://scripts/EnemyRusher.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_walk_01.png" id="2"]
@@ -7,6 +7,23 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_walk_04.png" id="5"]
 [ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_death_01.png" id="6"]
 [ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_death_02.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_revive_01.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_revive_02.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_revive_03.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_revive_04.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_feral_01.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_feral_02.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_feral_03.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_feral_04.png" id="15"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_deathfinal_01.png" id="16"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_deathfinal_02.png" id="17"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_deathfinal_03.png" id="18"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_deathfinal_husk.png" id="19"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_deathfinal_ghost.png" id="20"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_death1_01.png" id="21"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_death1_02.png" id="22"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_death1_03.png" id="23"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rusher/rusher_death1_04.png" id="24"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
 radius = 18.0
@@ -33,10 +50,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("6")
+"texture": ExtResource("21")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7")
+"texture": ExtResource("22")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24")
 }],
 "loop": false,
 "name": &"death",
@@ -52,6 +75,54 @@ animations = [{
 "loop": true,
 "name": &"tackle",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11")
+}],
+"loop": false,
+"name": &"revive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13")
+}],
+"loop": true,
+"name": &"feral",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18")
+}],
+"loop": false,
+"name": &"death_final",
+"speed": 6.0
 }]
 
 [node name="EnemyRusher" type="CharacterBody2D"]
@@ -69,3 +140,15 @@ autoplay = "walk"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -44)
 shape = SubResource("CapsuleShape2D_1")
+
+[node name="HuskSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -56)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("19")
+visible = false
+
+[node name="GhostSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -56)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("20")
+visible = false

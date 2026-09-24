@@ -40,7 +40,7 @@ fragment.png::CompressedTexture2D::6694015121533564256::1788994569::1788708625::
 motocle.png::CompressedTexture2D::3845694764900925777::1788994569::1788709122::1::::<><><>0<>0<>ff6ad0733176f66cd928f42181a4ed63<>res://.godot/imported/motocle.png-d6a1d79c601aefd78aa4d7d364163f73.ctex::
 motocle_bullet.png::CompressedTexture2D::6937218623812398594::1788994569::1788708624::1::::<><><>0<>0<>f3f0fa353666b8ee0232e75cfd24a9fc<>res://.godot/imported/motocle_bullet.png-4fb67090bf8befc9fdb1088bea801610.ctex::
 motocle_crouch_sheet.png::CompressedTexture2D::4479992733128106706::1788995715::1788995736::1::::<><><>0<>0<>2816d52161069cc4cc2957e89bb97460<>res://.godot/imported/motocle_crouch_sheet.png-9b723bf002ee86da6b5da788a40db701.ctex::
-::res://assets/sprites/aim_down/::1790210515
+::res://assets/sprites/aim_down/::1790210547
 aim_down_air.png::CompressedTexture2D::2875469630940999020::1790210508::1790210547::1::::<><><>0<>0<>9b2e1190c0bdd1d5c525d302c4ba27f0<>res://.godot/imported/aim_down_air.png-abcd9fc0f3a15676b7e6659d44de5439.ctex::
 shoot_down_air.png::CompressedTexture2D::7714667749435736011::1790210508::1790210547::1::::<><><>0<>0<>4531a3b53b2a4c933290c8ac765f8730<>res://.godot/imported/shoot_down_air.png-a23073858456d3bab5e8d4a4e342e20d.ctex::
 ::res://assets/sprites/coin/::1788994603
@@ -112,9 +112,26 @@ run_07.png::CompressedTexture2D::3972589859081342321::1788994570::1788709122::1:
 run_08.png::CompressedTexture2D::5849678570587670544::1788994570::1788708625::1::::<><><>0<>0<>980ebbe33e661b75c9ec9c9b6fd359c6<>res://.godot/imported/run_08.png-127d629f49eb2a91bdf9d74acee7ab7e.ctex::
 run_09.png::CompressedTexture2D::2822827096239704570::1788994570::1788709122::1::::<><><>0<>0<>572d73093f90495445376c5d833d18ff<>res://.godot/imported/run_09.png-100303fd61c46aae8f751889925c7243.ctex::
 run_10.png::CompressedTexture2D::220379779038571995::1788994570::1788708625::1::::<><><>0<>0<>96ffebc2f38608f845036b346b32f023<>res://.godot/imported/run_10.png-8c48fdc0a13335e4502fdd522bc5cf3f.ctex::
-::res://assets/sprites/rusher/::1790208712
+::res://assets/sprites/rusher/::1790212774
+rusher_death1_01.png::CompressedTexture2D::2213398808908053537::1790212772::1790212783::1::::<><><>0<>0<>a867bb08ed77a7fc0cae1e4fe6750a31<>res://.godot/imported/rusher_death1_01.png-5d90bcfbab1da789436b171dc44672f3.ctex::
+rusher_death1_02.png::CompressedTexture2D::1569232627223951037::1790212772::1790212783::1::::<><><>0<>0<>2dbdd8bd324d3ff191d680363eaec292<>res://.godot/imported/rusher_death1_02.png-3c2de8908cbb0d7d837c635ecee98d16.ctex::
+rusher_death1_03.png::CompressedTexture2D::1947899759201371775::1790212773::1790212783::1::::<><><>0<>0<>fe665c8ff8de5fbb4a46661fbaa9a3ee<>res://.godot/imported/rusher_death1_03.png-213a7846082062e23ba858ca0ab2adf7.ctex::
+rusher_death1_04.png::CompressedTexture2D::2944799548666629593::1790212774::1790212783::1::::<><><>0<>0<>0185c355dd5b89ec7e7b74bfca73239d<>res://.godot/imported/rusher_death1_04.png-71446714353ecd9e3469975e1f172e94.ctex::
+rusher_deathfinal_01.png::CompressedTexture2D::5279010225302500576::1790212457::1790212483::1::::<><><>0<>0<>5990b160be9551a94a596b7120b86426<>res://.godot/imported/rusher_deathfinal_01.png-ba7fafd08c311267879a859fc07071d6.ctex::
+rusher_deathfinal_02.png::CompressedTexture2D::1834129886552460415::1790212458::1790212483::1::::<><><>0<>0<>d398301d9bee686ca0e6125e9c9bb333<>res://.godot/imported/rusher_deathfinal_02.png-3b0b70c182c84cca94f2534b794565c9.ctex::
+rusher_deathfinal_03.png::CompressedTexture2D::331634545973620392::1790212459::1790212483::1::::<><><>0<>0<>1472da440d3f96fa5630585fa7d34f94<>res://.godot/imported/rusher_deathfinal_03.png-1f226ea00393b08244edf885ad6f57e1.ctex::
+rusher_deathfinal_ghost.png::CompressedTexture2D::5383426905969292823::1790212460::1790212483::1::::<><><>0<>0<>d78b37c1ad40301bb85b882b24c24435<>res://.godot/imported/rusher_deathfinal_ghost.png-02f1ebd958bc574e5f930fcbf4348901.ctex::
+rusher_deathfinal_husk.png::CompressedTexture2D::2741348179470559233::1790212459::1790212483::1::::<><><>0<>0<>6ac16df4dbd477d9b60e0be963b76822<>res://.godot/imported/rusher_deathfinal_husk.png-6cdd0ebd4e00f179f8f9de7b88fbf046.ctex::
 rusher_death_01.png::CompressedTexture2D::334009395824586633::1790208664::1790208712::1::::<><><>0<>0<>5aaff2990e93634382baf093c6b5bc5f<>res://.godot/imported/rusher_death_01.png-1132daa271f309fa1a5b4d361afb301b.ctex::
 rusher_death_02.png::CompressedTexture2D::7339122490673457597::1790208665::1790208712::1::::<><><>0<>0<>dc2d7bd94a54a06238df07efab9c1b0b<>res://.godot/imported/rusher_death_02.png-a8bc87f689a0cffd361f5781fceae273.ctex::
+rusher_feral_01.png::CompressedTexture2D::2347511000451073744::1790211927::1790211974::1::::<><><>0<>0<>0fc3572d997796d191c66487729ee414<>res://.godot/imported/rusher_feral_01.png-65dec52dae00cf1f2274a9f8cdd53c45.ctex::
+rusher_feral_02.png::CompressedTexture2D::3540659668852385751::1790211930::1790211974::1::::<><><>0<>0<>b0f50a9c97b78d02c8c5059a480a22f6<>res://.godot/imported/rusher_feral_02.png-29a5593fbbe50caf856e1d99b3c55967.ctex::
+rusher_feral_03.png::CompressedTexture2D::1305465511549264404::1790211934::1790211974::1::::<><><>0<>0<>23c8485812ce2e706d98fe1bca735bca<>res://.godot/imported/rusher_feral_03.png-fb8e0af38889b06bd42e67e477cb05aa.ctex::
+rusher_feral_04.png::CompressedTexture2D::9094297283658337816::1790211934::1790211974::1::::<><><>0<>0<>7f1ddff1f50f3c20359697c1a8059605<>res://.godot/imported/rusher_feral_04.png-905d922410fe177c48b0072598e61e81.ctex::
+rusher_revive_01.png::CompressedTexture2D::941639280682899529::1790211923::1790211974::1::::<><><>0<>0<>cffcddb2d4af7324504c43c024a2837f<>res://.godot/imported/rusher_revive_01.png-d9973991b8b8dd57358f95143df907da.ctex::
+rusher_revive_02.png::CompressedTexture2D::5126419378171596564::1790211924::1790211974::1::::<><><>0<>0<>afc3621f6a6c5a4fa7f188f19910fcc6<>res://.godot/imported/rusher_revive_02.png-424876dff0249aa317dfec0c33cc71d9.ctex::
+rusher_revive_03.png::CompressedTexture2D::976315205987471612::1790211925::1790211974::1::::<><><>0<>0<>0de485d16cec3b34c73956483f0b9ea1<>res://.godot/imported/rusher_revive_03.png-40a9d99330621c5ab090f0ce685a7f2f.ctex::
+rusher_revive_04.png::CompressedTexture2D::4099222420023799163::1790211925::1790211974::1::::<><><>0<>0<>b2833536398cb17faff652e201e12448<>res://.godot/imported/rusher_revive_04.png-4b2468cc3182dc1ad4c46b39b07fcbf0.ctex::
 rusher_walk_01.png::CompressedTexture2D::1933488014963907568::1790208662::1790208712::1::::<><><>0<>0<>c720d2249a132fbf765b5795eaa03df5<>res://.godot/imported/rusher_walk_01.png-689e30e62ab8a559edfc97773004541c.ctex::
 rusher_walk_02.png::CompressedTexture2D::2863654358082592857::1790208662::1790208712::1::::<><><>0<>0<>01dec6d93ed61b9b9bca2e29106d7eea<>res://.godot/imported/rusher_walk_02.png-3a92334c83754f86197de817ca226017.ctex::
 rusher_walk_03.png::CompressedTexture2D::7936535863257927495::1790208663::1790208712::1::::<><><>0<>0<>e91f3177e4783b030f6f18c8999c45f4<>res://.godot/imported/rusher_walk_03.png-215b45f8fe19583ea00ae866aa8bec6c.ctex::
@@ -163,10 +180,12 @@ tile.png::CompressedTexture2D::1362371347322694715::1788994569::1788708624::1:::
 ::res://assets/ui/::1788994569
 heart_empty.png::CompressedTexture2D::7405241902166794365::1788994569::1788709717::1::::<><><>0<>0<>3f1eb65891e56c2739dd9e2e5e1790f1<>res://.godot/imported/heart_empty.png-b7d477f53aa341405ef7f7ff65b39ec9.ctex::
 heart_full.png::CompressedTexture2D::7025178166712653024::1788994569::1788709717::1::::<><><>0<>0<>410e5dead13c388bd84a7a52eb860e42<>res://.godot/imported/heart_full.png-787bf3c0b1702978cdda03feda19f312.ctex::
-::res://Claude outputs/::1790210525
+::res://Claude outputs/::1790212483
 contact_sheet.png::CompressedTexture2D::1074577049312642615::1790210525::1790210547::1::::<><><>0<>0<>72fd70da88612f797e79fd8855ded61b<>res://.godot/imported/contact_sheet.png-cb79b034f4498a9654b4d5e3576f6645.ctex::
 crouch_walk_preview.png::CompressedTexture2D::3537059900171129262::1788997157::1788997178::1::::<><><>0<>0<>4bea1bbfcc01357b4fe53fd6e277a44b<>res://.godot/imported/crouch_walk_preview.png-cc2792a1b03a26930cf404fb54b605f5.ctex::
-::res://scenes/::1790210505
+deathfinal_contact_sheet.png::CompressedTexture2D::4257264859725831011::1790212474::1790212483::1::::<><><>0<>0<>cff3ed693ae2d5084540044ab5d0a195<>res://.godot/imported/deathfinal_contact_sheet.png-b95f54cbea21409c5bb9128f08329647.ctex::
+feral_contact_sheet2.png::CompressedTexture2D::3280246814252663183::1790211949::1790211974::1::::<><><>0<>0<>f81eebbcd386a5d9313327bc0da52ed9<>res://.godot/imported/feral_contact_sheet2.png-315b807063624ec7e192b9ba1b739f03.ctex::
+::res://scenes/::1790212771
 BloodEffect.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/BloodEffect.gd<>res://assets/effects/blood_particle.png
 Boss.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/Boss.gd<>res://assets/sprites/boss_printer3d.png
 BossDoctor.tscn::PackedScene::-1::1790210095::0::1::::<><><>0<>0<><>::
@@ -174,7 +193,7 @@ Bullet.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/
 Coin.tscn::PackedScene::-1::1788994564::0::1::::<><><>0<>0<><>::res://scripts/Coin.gd<>res://assets/sprites/coin/coin_01.png<>res://assets/sprites/coin/coin_02.png<>res://assets/sprites/coin/coin_03.png<>res://assets/sprites/coin/coin_04.png<>res://assets/sprites/coin/coin_05.png<>res://assets/sprites/coin/coin_06.png<>res://assets/sprites/coin/coin_07.png<>res://assets/sprites/coin/coin_08.png<>res://assets/sprites/coin/coin_09.png<>res://assets/sprites/coin/coin_10.png<>res://assets/sprites/coin/coin_11.png<>res://assets/sprites/coin/coin_12.png<>res://assets/sprites/coin/coin_13.png
 DialogueBox.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/DialogueBox.gd
 Enemy.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/Enemy.gd<>res://assets/sprites/enemy_printer.png
-EnemyRusher.tscn::PackedScene::-1::1790209719::0::1::::<><><>0<>0<><>::res://scripts/EnemyRusher.gd<>res://assets/sprites/rusher/rusher_walk_01.png<>res://assets/sprites/rusher/rusher_walk_02.png<>res://assets/sprites/rusher/rusher_walk_03.png<>res://assets/sprites/rusher/rusher_walk_04.png<>res://assets/sprites/rusher/rusher_death_01.png<>res://assets/sprites/rusher/rusher_death_02.png
+EnemyRusher.tscn::PackedScene::-1::1790212771::0::1::::<><><>0<>0<><>::res://scripts/EnemyRusher.gd<>res://assets/sprites/rusher/rusher_walk_01.png<>res://assets/sprites/rusher/rusher_walk_02.png<>res://assets/sprites/rusher/rusher_walk_03.png<>res://assets/sprites/rusher/rusher_walk_04.png<>res://assets/sprites/rusher/rusher_death_01.png<>res://assets/sprites/rusher/rusher_death_02.png
 ExitDoor.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/ExitDoor.gd<>res://assets/sprites/door.png
 Fragment.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/Fragment.gd<>res://assets/sprites/fragment.png
 HUD.tscn::PackedScene::-1::1788995715::0::1::::<><><>0<>0<><>::res://scripts/HUD.gd<>res://assets/ui/heart_full.png<>res://assets/sprites/coin/coin_01.png
@@ -196,15 +215,15 @@ ZombieBoss.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scri
 ZombieRotten.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/ZombieEnemy.gd<>res://assets/sprites/zombies/rotten_01.png<>res://assets/sprites/zombies/rotten_02.png<>res://assets/sprites/zombies/death/rotten_death_01.png<>res://assets/sprites/zombies/death/rotten_death_02.png<>res://assets/sprites/zombies/death/rotten_death_03.png<>res://assets/sprites/zombies/death/rotten_death_04.png<>res://assets/sprites/zombies/death/rotten_death_05.png<>res://assets/sprites/zombies/death/rotten_death_06.png
 ZombieRunner.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/ZombieEnemy.gd<>res://assets/sprites/zombies/runner_01.png<>res://assets/sprites/zombies/runner_02.png<>res://assets/sprites/zombies/runner_03.png<>res://assets/sprites/zombies/runner_04.png<>res://assets/sprites/zombies/runner_05.png<>res://assets/sprites/zombies/death/runner_death_01.png<>res://assets/sprites/zombies/death/runner_death_02.png<>res://assets/sprites/zombies/death/runner_death_03.png<>res://assets/sprites/zombies/death/runner_death_04.png<>res://assets/sprites/zombies/death/runner_death_05.png<>res://assets/sprites/zombies/death/runner_death_06.png
 ZombieShambler.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/ZombieEnemy.gd<>res://assets/sprites/zombies/shambler_01.png<>res://assets/sprites/zombies/shambler_02.png<>res://assets/sprites/zombies/shambler_03.png<>res://assets/sprites/zombies/death/shambler_death_01.png<>res://assets/sprites/zombies/death/shambler_death_02.png<>res://assets/sprites/zombies/death/shambler_death_03.png<>res://assets/sprites/zombies/death/shambler_death_04.png<>res://assets/sprites/zombies/death/shambler_death_05.png<>res://assets/sprites/zombies/death/shambler_death_06.png
-::res://scripts/::1790210507
+::res://scripts/::1790212771
 BloodEffect.gd::GDScript::7044551402564051920::1788994571::0::1::::<>Node2D<><>0<>0<><>::
 Boss.gd::GDScript::5445923270845739395::1788995715::0::1::::<>CharacterBody2D<><>0<>0<><>::
-BossDoctor.gd::GDScript::508632899456502953::1790210094::0::1::::<>CharacterBody2D<><>0<>0<><>::
+BossDoctor.gd::GDScript::508632899456502953::1790211299::0::1::::<>CharacterBody2D<><>0<>0<><>::
 Bullet.gd::GDScript::4609149962856681215::1790210507::0::1::::<>Area2D<><>0<>0<><>::
 Coin.gd::GDScript::7393284106595851470::1788995715::0::1::::<>Area2D<><>0<>0<><>::
 DialogueBox.gd::GDScript::5585466404643281771::1788994571::0::1::::<>CanvasLayer<><>0<>0<><>::
 Enemy.gd::GDScript::6423848142155082712::1788995715::0::1::::<>CharacterBody2D<><>0<>0<><>::
-EnemyRusher.gd::GDScript::3821093830646739525::1790209944::0::1::::<>CharacterBody2D<><>0<>0<><>::
+EnemyRusher.gd::GDScript::3821093830646739525::1790212771::0::1::::<>CharacterBody2D<><>0<>0<><>::
 ExitDoor.gd::GDScript::3219841921918934752::1788994571::0::1::::<>Area2D<><>0<>0<><>::
 Fragment.gd::GDScript::1428504155290767704::1788995715::0::1::::<>Area2D<><>0<>0<><>::
 GameManager.gd::GDScript::1687678777862751128::1790209104::0::1::::<>Node<><>0<>0<><>::
@@ -218,5 +237,5 @@ MusicManager.gd::GDScript::3928220844821397222::1788994571::0::1::::<>Node<><>0<
 PauseMenu.gd::GDScript::6233469939333410734::1788995715::0::1::::<>CanvasLayer<><>0<>0<><>::
 Player.gd::GDScript::2039252636072333556::1790210505::0::1::::<>CharacterBody2D<><>0<>0<><>::
 WinScreen.gd::GDScript::793432691496732718::1788994571::0::1::::<>Control<><>0<>0<><>::
-ZombieBoss.gd::GDScript::3154068065521988548::1788995715::0::1::::<>CharacterBody2D<><>0<>0<><>::
+ZombieBoss.gd::GDScript::3154068065521988548::1790210549::0::1::::<>CharacterBody2D<><>0<>0<><>::
 ZombieEnemy.gd::GDScript::1028294806160378537::1788995715::0::1::::<>CharacterBody2D<><>0<>0<><>::
