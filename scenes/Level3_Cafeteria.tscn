@@ -15,7 +15,7 @@
 [node name="Level3_Cafeteria" type="Node2D"]
 script = ExtResource("1")
 level_title = "Cafetería"
-dialogue_text = "El auditorio es el siguiente... GLITCH.exe está reforzando su control ahí. ¡Cuidado con las luces, Motocle!"
+dialogue_text = "¡Esa Mega-Cafetera casi te ahoga en espresso! El auditorio es el siguiente... GLITCH.exe está reforzando su control ahí. ¡Cuidado con las luces, Motocle!"
 is_final_level = false
 
 [node name="Background" type="Sprite2D" parent="."]

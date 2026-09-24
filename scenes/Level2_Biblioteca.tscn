@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/bg_farmacia.png" id="2"]
-[ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/PlatformRusty.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/BossDoctor.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://scenes/Fragment.tscn" id="7"]
@@ -12,8 +12,8 @@
 
 [node name="Level2_Biblioteca" type="Node2D"]
 script = ExtResource("1")
-level_title = "Biblioteca"
-dialogue_text = "Sigue hacia la cafetería, Motocle... ahí escondí otro fragmento antes de que GLITCH.exe me alcanzara..."
+level_title = "Biblioteca — Farmacia Similares"
+dialogue_text = "¡Uf! Ese Dr. Genérico y sus mini-clones no paraban de multiplicarse... Sigue hacia la cafetería, Motocle: ahí escondí otro fragmento antes de que GLITCH.exe me alcanzara..."
 is_final_level = false
 
 [node name="Background" type="Sprite2D" parent="."]

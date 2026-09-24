@@ -26,8 +26,11 @@ signal died
 @export_group("Modo salvaje (tras revivir)")
 @export var feral_max_health: int = 20     ## resiste dos disparos normales (10 de daño c/u)
 @export var feral_speed_mult: float = 1.8  ## multiplicador de velocidad en modo salvaje
-@export var feral_jump_velocity: float = -300.0
-@export var feral_jump_interval: float = 1.0 ## cada cuánto intenta saltar mientras persigue
+@export var feral_jump_velocity: float = -340.0
+@export var feral_jump_interval: float = 0.55 ## cada cuánto salta (patrullando o persiguiendo)
+
+const NORMAL_MASK := 5      ## WORLD (1) + ENEMY (4)
+const FERAL_AIR_MASK := 4   ## solo ENEMY: al subir en modo salvaje ignora suelo/plataformas para no golpearlas
 
 @export_group("Muerte definitiva (segunda muerte)")
 @export var spirit_rise_height: float = 420.0  ## cuánto sube el espíritu antes de desaparecer
@@ -78,6 +81,11 @@ func _physics_process(delta: float) -> void:
 	var speed_mult := feral_speed_mult if _feral else 1.0
 	var move_anim: StringName = &"feral" if _feral else &"walk"
 
+	# En modo salvaje brinca constantemente (patrullando o persiguiendo), no solo al cargar
+	if _feral and is_on_floor() and _feral_jump_timer <= 0.0:
+		velocity.y = feral_jump_velocity
+		_feral_jump_timer = feral_jump_interval
+
 	if _avoid_timer > 0.0:
 		_avoid_timer -= delta
 		velocity.x = _avoid_dir * move_speed * speed_mult
@@ -91,13 +99,7 @@ func _physics_process(delta: float) -> void:
 			var dir: float = sign(player.global_position.x - global_position.x)
 			if dir != 0.0:
 				_direction = dir
-			if _feral:
-				_play_anim(&"feral")
-				if is_on_floor() and _feral_jump_timer <= 0.0:
-					velocity.y = feral_jump_velocity
-					_feral_jump_timer = feral_jump_interval
-			else:
-				_play_anim(&"tackle")
+			_play_anim(&"feral" if _feral else &"tackle")
 		else:
 			# Sin objetivo a la vista: patrulla cerca de su punto de origen
 			if position.x > _start_x + patrol_range:
@@ -107,6 +109,13 @@ func _physics_process(delta: float) -> void:
 			_play_anim(move_anim)
 		sprite.flip_h = _direction < 0
 		velocity.x = _direction * move_speed * speed_mult
+
+	# Mientras sube en modo salvaje, ignora el suelo/plataformas para no golpearse contra
+	# la parte de abajo de las plataformas flotantes; al caer vuelve a colisionar normal.
+	if _feral:
+		collision_mask = FERAL_AIR_MASK if velocity.y < 0.0 else NORMAL_MASK
+	else:
+		collision_mask = NORMAL_MASK
 
 	move_and_slide()
 	_check_enemy_collision()

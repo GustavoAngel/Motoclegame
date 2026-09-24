@@ -15,7 +15,7 @@
 [node name="Level1_Sistemas" type="Node2D"]
 script = ExtResource("1")
 level_title = "Edificio de Sistemas — Brote Zombie"
-dialogue_text = "Motocle... GLITCH.exe no solo infectó las máquinas, ¡también contagió al Profesor Reyes y a los ayudantes del laboratorio! Busca en la biblioteca... el virus dividió mis archivos en fragmentos por todo el campus..."
+dialogue_text = "¡Lo lograste, Motocle! GLITCH.exe no solo infectó las máquinas, ¡también contagió al Profesor Reyes y a los ayudantes del laboratorio! Corre a la biblioteca... hasta el kiosco de la Farmacia Similares de ahí adentro se volvió loco. El virus dividió mis archivos en fragmentos por todo el campus..."
 is_final_level = false
 
 [node name="Background" type="Sprite2D" parent="."]

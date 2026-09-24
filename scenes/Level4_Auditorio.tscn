@@ -15,7 +15,7 @@
 [node name="Level4_Auditorio" type="Node2D"]
 script = ExtResource("1")
 level_title = "Auditorio"
-dialogue_text = "El núcleo está bajo El H, el edificio del servidor central... ¡date prisa, Motocle, no sé cuánto más aguante!"
+dialogue_text = "¡Silenciaste al DJ Fantasma justo a tiempo! El núcleo está bajo El H, el edificio del servidor central... ¡date prisa, Motocle, no sé cuánto más aguante!"
 is_final_level = false
 
 [node name="Background" type="Sprite2D" parent="."]
