@@ -1,5 +1,5 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1790208711
+::res://::1790713002
 icon.png::CompressedTexture2D::2336117385459878013::1788994569::1788708624::1::::<><><>0<>0<>56d24ef44f90a73c89396edc6c9c9d13<>res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex::
 motocle_narrativa.md::TextFile::-1::1788994569::0::1::::<><><>0<>0<><>::
 README.md::TextFile::-1::1788995715::0::1::::<><><>0<>0<><>::
@@ -174,7 +174,7 @@ throw_03.png::CompressedTexture2D::3249458381327969079::1788994570::1788708624::
 throw_04.png::CompressedTexture2D::1266942168199445684::1788994570::1788708625::1::::<><><>0<>0<>23b167c3d5f91afa29452c035a8081c5<>res://.godot/imported/throw_04.png-6a1e38fb5e38d29bc42750d63cfe091e.ctex::
 throw_05.png::CompressedTexture2D::1893116173967593963::1788994570::1788708625::1::::<><><>0<>0<>f2039c48f695086d82a9135e67a56a2c<>res://.godot/imported/throw_05.png-d3ee014a29e455cd6dbc5541b257c010.ctex::
 throw_06.png::CompressedTexture2D::3238079053762683089::1788994570::1788708625::1::::<><><>0<>0<>9892a18163604d813ed765e09a9a9cd0<>res://.godot/imported/throw_06.png-0b7f5004972ee3e41eda397c488cee7c.ctex::
-::res://assets/tiles/::1790213468
+::res://assets/tiles/::1790213481
 platform.png::CompressedTexture2D::5007438711469170835::1788994569::1788708624::1::::<><><>0<>0<>4b124dad1f70525c4f962f17558eccc2<>res://.godot/imported/platform.png-084d9cbdbf9eef1648f2b7c862141de1.ctex::
 platform_rusty.png::CompressedTexture2D::4938542391752539974::1790213468::1790213481::1::::<><><>0<>0<>33b2489a0384b2b3eab5364cd296a7a2<>res://.godot/imported/platform_rusty.png-d9cba916cc8b1bd03a519c5aabf07b53.ctex::
 tile.png::CompressedTexture2D::1362371347322694715::1788994569::1788708624::1::::<><><>0<>0<>6f798d36e8781c79380d1918994d7ea0<>res://.godot/imported/tile.png-bf72aab654b431d87feb8b28e2979954.ctex::
@@ -186,7 +186,7 @@ contact_sheet.png::CompressedTexture2D::1074577049312642615::1790210525::1790210
 crouch_walk_preview.png::CompressedTexture2D::3537059900171129262::1788997157::1788997178::1::::<><><>0<>0<>4bea1bbfcc01357b4fe53fd6e277a44b<>res://.godot/imported/crouch_walk_preview.png-cc2792a1b03a26930cf404fb54b605f5.ctex::
 deathfinal_contact_sheet.png::CompressedTexture2D::4257264859725831011::1790212474::1790212483::1::::<><><>0<>0<>cff3ed693ae2d5084540044ab5d0a195<>res://.godot/imported/deathfinal_contact_sheet.png-b95f54cbea21409c5bb9128f08329647.ctex::
 feral_contact_sheet2.png::CompressedTexture2D::3280246814252663183::1790211949::1790211974::1::::<><><>0<>0<>f81eebbcd386a5d9313327bc0da52ed9<>res://.godot/imported/feral_contact_sheet2.png-315b807063624ec7e192b9ba1b739f03.ctex::
-::res://scenes/::1790213469
+::res://scenes/::1790213616
 BloodEffect.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/BloodEffect.gd<>res://assets/effects/blood_particle.png
 Boss.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/Boss.gd<>res://assets/sprites/boss_printer3d.png
 BossDoctor.tscn::PackedScene::-1::1790210095::0::1::::<><><>0<>0<><>::
@@ -198,11 +198,11 @@ EnemyRusher.tscn::PackedScene::-1::1790213313::0::1::::<><><>0<>0<><>::res://scr
 ExitDoor.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/ExitDoor.gd<>res://assets/sprites/door.png
 Fragment.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/Fragment.gd<>res://assets/sprites/fragment.png
 HUD.tscn::PackedScene::-1::1788995715::0::1::::<><><>0<>0<><>::res://scripts/HUD.gd<>res://assets/ui/heart_full.png<>res://assets/sprites/coin/coin_01.png
-Level1_Sistemas.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_zombies.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/ZombieBoss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://scenes/ZombieShambler.tscn<>res://scenes/ZombieRunner.tscn<>res://scenes/ZombieRotten.tscn
+Level1_Sistemas.tscn::PackedScene::-1::1790213615::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_zombies.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/ZombieBoss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://scenes/ZombieShambler.tscn<>res://scenes/ZombieRunner.tscn<>res://scenes/ZombieRotten.tscn
 Level2_Biblioteca-1.tscn::PackedScene::-1::1790202945::0::1::::<><><>0<>0<><>::
-Level2_Biblioteca.tscn::PackedScene::-1::1790213469::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_farmacia.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/Enemy.tscn<>res://scenes/Boss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://assets/sprites/enemy_book.png<>res://assets/sprites/boss_doctor.png<>res://scenes/EnemyRusher.tscn
-Level3_Cafeteria.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_cafeteria.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/Enemy.tscn<>res://scenes/Boss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://assets/sprites/enemy_cup.png<>res://assets/sprites/boss_cafetera.png
-Level4_Auditorio.tscn::PackedScene::-1::1788994570::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_auditorio.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/Enemy.tscn<>res://scenes/Boss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://assets/sprites/enemy_speaker.png<>res://assets/sprites/boss_dj.png
+Level2_Biblioteca.tscn::PackedScene::-1::1790213615::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_farmacia.png<>res://scenes/PlatformRusty.tscn<>res://scenes/Player.tscn<>res://scenes/BossDoctor.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://scenes/EnemyRusher.tscn
+Level3_Cafeteria.tscn::PackedScene::-1::1790213615::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_cafeteria.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/Enemy.tscn<>res://scenes/Boss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://assets/sprites/enemy_cup.png<>res://assets/sprites/boss_cafetera.png
+Level4_Auditorio.tscn::PackedScene::-1::1790213616::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_auditorio.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/Enemy.tscn<>res://scenes/Boss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://assets/sprites/enemy_speaker.png<>res://assets/sprites/boss_dj.png
 Level5_ElH.tscn::PackedScene::-1::1788994571::0::1::::<><><>0<>0<><>::res://scripts/Level.gd<>res://assets/backgrounds/bg_elh.png<>res://scenes/Platform.tscn<>res://scenes/Player.tscn<>res://scenes/Enemy.tscn<>res://scenes/Boss.tscn<>res://scenes/Fragment.tscn<>res://scenes/ExitDoor.tscn<>res://scenes/HUD.tscn<>res://assets/sprites/enemy_glitch.png<>res://assets/sprites/boss_glitch.png
 LoadingScreen.tscn::PackedScene::-1::1788995715::0::1::::<><><>0<>0<><>::
 Main.tscn::PackedScene::7638984517102597357::1788996114::0::1::::<><><>0<>0<><>::uid://dp740d6e2aggv::::res://scripts/Main.gd<>uid://dxb01y7hft87b::::res://assets/backgrounds/main_menu.png
