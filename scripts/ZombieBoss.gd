@@ -135,3 +135,5 @@ func take_damage(amount: int) -> void:
 		GameManager.add_score(1000)
 		defeated.emit()
 		queue_free()
+
+

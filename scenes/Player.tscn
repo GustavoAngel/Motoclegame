@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3]
+[gd_scene load_steps=50 format=3]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/motocle.png" id="2"]
@@ -37,18 +37,16 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_02.png" id="35"]
 [ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_03.png" id="36"]
 [ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_04.png" id="37"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_01.png" id="38"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_02.png" id="39"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_03.png" id="40"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_04.png" id="41"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_05.png" id="42"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_06.png" id="43"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_07.png" id="44"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_08.png" id="45"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_09.png" id="46"]
-[ext_resource type="Texture2D" path="res://assets/sprites/crouch/crouch_10.png" id="47"]
-[ext_resource type="Texture2D" path="res://assets/sprites/aim_down/shoot_down_air.png" id="48"]
-[ext_resource type="Texture2D" path="res://assets/sprites/aim_down/aim_down_air.png" id="49"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_01.png" id="38"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_02.png" id="39"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_03.png" id="40"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_04.png" id="41"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_05.png" id="42"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_06.png" id="43"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_07.png" id="44"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_08.png" id="45"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_09.png" id="46"]
+[ext_resource type="Texture2D" path="res://assets/sprites/crouch_walk/crouch_walk_10.png" id="47"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
 radius = 22.0
@@ -168,34 +166,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("38")
+"texture": ExtResource("34")
 }, {
 "duration": 1.0,
-"texture": ExtResource("39")
+"texture": ExtResource("35")
 }, {
 "duration": 1.0,
-"texture": ExtResource("40")
+"texture": ExtResource("36")
 }, {
 "duration": 1.0,
-"texture": ExtResource("41")
-}, {
-"duration": 1.0,
-"texture": ExtResource("42")
-}, {
-"duration": 1.0,
-"texture": ExtResource("43")
-}, {
-"duration": 1.0,
-"texture": ExtResource("44")
-}, {
-"duration": 1.0,
-"texture": ExtResource("45")
-}, {
-"duration": 1.0,
-"texture": ExtResource("46")
-}, {
-"duration": 1.0,
-"texture": ExtResource("47")
+"texture": ExtResource("37")
 }],
 "loop": true,
 "name": &"crouch",
@@ -235,22 +215,6 @@ animations = [{
 "loop": true,
 "name": &"crouch_walk",
 "speed": 12.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("49")
-}],
-"loop": true,
-"name": &"aim_down_air",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("48")
-}],
-"loop": true,
-"name": &"shoot_down_air",
-"speed": 5.0
 }]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -271,9 +235,6 @@ shape = SubResource("CapsuleShape2D_1")
 
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(42, -70)
-
-[node name="MuzzleDown" type="Marker2D" parent="."]
-position = Vector2(14, -20)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -80)
