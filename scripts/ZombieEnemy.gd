@@ -16,6 +16,24 @@ signal died
 
 const AVOID_TIME := 0.35  ## cuánto tiempo se aleja de otro zombie antes de volver a perseguir
 
+## --- Sonidos ---------------------------------------------------------------
+## Mientras está vivo y Motocle anda cerca, se queja cada cierto tiempo.
+## Al morir lanza un grito de agonía corto. El tono depende del tipo de zombie:
+## Runner más agudo, Rotten más grave.
+const GROANS := [
+	preload("res://assets/audio/zombie_groan_1.wav"),
+	preload("res://assets/audio/zombie_groan_2.wav"),
+	preload("res://assets/audio/zombie_groan_3.wav"),
+]
+const SCREAM := preload("res://assets/audio/zombie_scream.wav")
+const GROAN_RANGE := 750.0      ## solo se quejan si Motocle está a esta distancia o menos
+const MAX_GROANING := 3         ## máximo de zombies quejándose al mismo tiempo
+static var _groaning := 0
+
+var _voice: AudioStreamPlayer2D
+var _groan_timer := 0.0
+var _pitch := 1.0
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var health: int
@@ -37,6 +55,13 @@ func _ready() -> void:
 	collision_mask = 5   # WORLD (1) + ENEMY (4): también chocan entre ellos, no se encima
 	if sprite.sprite_frames and sprite.sprite_frames.has_animation(anim_name):
 		sprite.play(anim_name)
+	_pitch = 1.25 if move_speed > 70.0 else (0.82 if max_health > 25 else 1.0)
+	_voice = AudioStreamPlayer2D.new()
+	_voice.max_distance = 1100.0
+	_voice.bus = "Master"
+	_voice.finished.connect(_on_voice_finished)
+	add_child(_voice)
+	_groan_timer = randf_range(0.5, 4.0)
 
 
 func _physics_process(delta: float) -> void:
@@ -67,6 +92,35 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	_check_enemy_collision()
+	_update_groan(delta)
+
+
+func _update_groan(delta: float) -> void:
+	_groan_timer -= delta
+	if _groan_timer > 0.0 or _voice.playing:
+		return
+	_groan_timer = randf_range(2.5, 6.0)
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	if player == null or player.global_position.distance_to(global_position) > GROAN_RANGE:
+		return
+	if _groaning >= MAX_GROANING:
+		return
+	_groaning += 1
+	_voice.stream = GROANS.pick_random()
+	_voice.pitch_scale = _pitch * randf_range(0.92, 1.08)
+	_voice.volume_db = -9.0
+	_voice.play()
+
+
+## Si el nivel se recarga mientras se queja, libera su lugar en el contador.
+func _exit_tree() -> void:
+	if _voice and _voice.playing and _voice.stream != SCREAM:
+		_groaning = maxi(0, _groaning - 1)
+
+
+func _on_voice_finished() -> void:
+	if _voice.stream != SCREAM:
+		_groaning = maxi(0, _groaning - 1)
 
 
 func _check_enemy_collision() -> void:
@@ -98,6 +152,13 @@ func take_damage(amount: int) -> void:
 
 func _die() -> void:
 	_dead = true
+	# grito de agonía (corta cualquier quejido en curso)
+	if _voice.playing and _voice.stream != SCREAM:
+		_groaning = maxi(0, _groaning - 1)
+	_voice.stream = SCREAM
+	_voice.pitch_scale = _pitch * randf_range(0.95, 1.08)
+	_voice.volume_db = -1.0
+	_voice.play()
 	modulate = Color(1, 1, 1)
 	velocity = Vector2.ZERO
 	remove_from_group("enemy")

@@ -1,94 +1,232 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/bg_auditorio.png" id="2"]
-[ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://scenes/Enemy.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://scenes/Boss.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://scenes/Fragment.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://scenes/ExitDoor.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="9"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemy_speaker.png" id="10"]
-[ext_resource type="Texture2D" path="res://assets/sprites/boss_dj.png" id="11"]
+[ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/Fragment.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ExitDoor.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="6"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/auditorio/cielo.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/auditorio/lejano.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/auditorio/medio.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/auditorio/cercano.png" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/Enemy.tscn" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemy_speaker.png" id="12"]
+[ext_resource type="PackedScene" path="res://scenes/Boss.tscn" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/boss_dj.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/auditorio/frente.png" id="15"]
 
 [node name="Level4_Auditorio" type="Node2D"]
 script = ExtResource("1")
 level_title = "Auditorio"
 dialogue_text = "El núcleo está bajo El H, el edificio del servidor central... ¡date prisa, Motocle, no sé cuánto más aguante!"
 is_final_level = false
+level_width = 2900
+platform_style = "auditorio"
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(0, 0)
-scale = Vector2(2.5, 1.6)
+[node name="Fondo" type="Node2D" parent="."]
+z_index = -10
+
+[node name="Cielo" type="Parallax2D" parent="Fondo"]
+scroll_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Fondo/Cielo"]
+position = Vector2(-64, -64)
 centered = false
-texture = ExtResource("2")
+texture = ExtResource("7")
 
-[node name="Ground" parent="." instance=ExtResource("3")]
-position = Vector2(800, 556)
-scale = Vector2(16.667, 2)
+[node name="Lejano" type="Parallax2D" parent="Fondo"]
+scroll_scale = Vector2(0.15, 0.15)
+modulate = Color(0.75, 0.7, 0.8, 1)
+repeat_size = Vector2(1024, 0)
 
-[node name="PlatformA" parent="." instance=ExtResource("3")]
-position = Vector2(350, 430)
-scale = Vector2(2.5, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Fondo/Lejano"]
+position = Vector2(0, -140.4)
+centered = false
+texture = ExtResource("8")
 
-[node name="PlatformB" parent="." instance=ExtResource("3")]
-position = Vector2(650, 340)
-scale = Vector2(2, 1)
+[node name="Medio" type="Parallax2D" parent="Fondo"]
+scroll_scale = Vector2(0.4, 0.4)
+modulate = Color(0.45, 0.4, 0.52, 1)
+repeat_size = Vector2(1024, 0)
 
-[node name="PlatformC" parent="." instance=ExtResource("3")]
-position = Vector2(950, 430)
-scale = Vector2(2.5, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Fondo/Medio"]
+position = Vector2(0, -109.4)
+centered = false
+texture = ExtResource("9")
 
-[node name="PlatformD" parent="." instance=ExtResource("3")]
-position = Vector2(1250, 340)
-scale = Vector2(2, 1)
+[node name="Cercano" type="Parallax2D" parent="Fondo"]
+scroll_scale = Vector2(0.75, 0.75)
+modulate = Color(0.6, 0.58, 0.68, 1)
+repeat_size = Vector2(1280, 0)
 
-[node name="Player" parent="." instance=ExtResource("4")]
-position = Vector2(80, 480)
+[node name="Sprite2D" type="Sprite2D" parent="Fondo/Cercano"]
+position = Vector2(0, -76)
+centered = false
+texture = ExtResource("10")
 
-[node name="Enemy1" parent="." instance=ExtResource("5")]
-position = Vector2(380, 532)
-sprite_texture = ExtResource("10")
+[node name="Plataformas" type="Node2D" parent="."]
+
+[node name="Abismo1" type="ColorRect" parent="Plataformas"]
+z_index = -3
+offset_left = 1496
+offset_top = 502
+offset_right = 1634
+offset_bottom = 1100
+mouse_filter = 2
+color = Color(0.03, 0.02, 0.03, 1)
+
+[node name="Piso1" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(750, 532)
+size = Vector2(1500, 48)
+is_ground = true
+
+[node name="Piso2" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(2265, 532)
+size = Vector2(1270, 48)
+is_ground = true
+
+[node name="Plataforma1" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(300, 455)
+size = Vector2(140, 18)
+
+[node name="Plataforma2" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(440, 380)
+size = Vector2(140, 18)
+
+[node name="Plataforma3" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(580, 305)
+size = Vector2(140, 18)
+
+[node name="Plataforma4" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(720, 230)
+size = Vector2(160, 18)
+
+[node name="Movil5" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(920, 230)
+size = Vector2(110, 18)
+move_offset = Vector2(160, 0)
+move_duration = 2.8
+
+[node name="Plataforma6" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(1240, 230)
+size = Vector2(140, 18)
+
+[node name="Plataforma7" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(1380, 305)
+size = Vector2(120, 18)
+
+[node name="Plataforma8" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(1520, 380)
+size = Vector2(120, 18)
+
+[node name="Plataforma9" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(1700, 455)
+size = Vector2(140, 18)
+
+[node name="Plataforma10" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(1880, 380)
+size = Vector2(130, 18)
+
+[node name="Plataforma11" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(2060, 305)
+size = Vector2(130, 18)
+
+[node name="Plataforma12" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(2240, 380)
+size = Vector2(130, 18)
+
+[node name="Plataforma13" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(2400, 455)
+size = Vector2(150, 18)
+
+[node name="Plataforma14" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(2560, 430)
+size = Vector2(100, 18)
+
+[node name="Player" parent="." instance=ExtResource("3")]
+position = Vector2(80, 532)
+
+[node name="Enemy1" parent="." instance=ExtResource("11")]
+position = Vector2(440, 380)
+sprite_texture = ExtResource("12")
 max_health = 28
-move_speed = 55.0
-patrol_range = 80.0
+move_speed = 55
+patrol_range = 50
 shoot_interval = 1.7
 contact_damage = 10
 
-[node name="Enemy2" parent="." instance=ExtResource("5")]
-position = Vector2(650, 328)
-sprite_texture = ExtResource("10")
+[node name="Enemy2" parent="." instance=ExtResource("11")]
+position = Vector2(720, 230)
+sprite_texture = ExtResource("12")
 max_health = 28
-move_speed = 55.0
-patrol_range = 80.0
+move_speed = 55
+patrol_range = 60
 shoot_interval = 1.7
 contact_damage = 10
 
-[node name="Enemy3" parent="." instance=ExtResource("5")]
-position = Vector2(1250, 328)
-sprite_texture = ExtResource("10")
+[node name="Enemy3" parent="." instance=ExtResource("11")]
+position = Vector2(1100, 532)
+sprite_texture = ExtResource("12")
 max_health = 28
-move_speed = 55.0
-patrol_range = 80.0
+move_speed = 55
+patrol_range = 100
 shoot_interval = 1.7
 contact_damage = 10
 
-[node name="Boss" parent="." instance=ExtResource("6")]
-position = Vector2(1450, 532)
-sprite_texture = ExtResource("11")
+[node name="Enemy4" parent="." instance=ExtResource("11")]
+position = Vector2(1700, 455)
+sprite_texture = ExtResource("12")
+max_health = 28
+move_speed = 55
+patrol_range = 50
+shoot_interval = 1.7
+contact_damage = 10
+
+[node name="Enemy5" parent="." instance=ExtResource("11")]
+position = Vector2(2060, 305)
+sprite_texture = ExtResource("12")
+max_health = 28
+move_speed = 55
+patrol_range = 45
+shoot_interval = 1.7
+contact_damage = 10
+
+[node name="Enemy6" parent="." instance=ExtResource("11")]
+position = Vector2(2300, 532)
+sprite_texture = ExtResource("12")
+max_health = 28
+move_speed = 55
+patrol_range = 90
+shoot_interval = 1.7
+contact_damage = 10
+
+[node name="Boss" parent="." instance=ExtResource("13")]
+position = Vector2(2700, 532)
+sprite_texture = ExtResource("14")
 max_health = 175
-patrol_range = 55.0
-move_speed = 30.0
+patrol_range = 55
+move_speed = 30
 shoot_interval = 1.6
 burst_count = 4
 contact_damage = 17
 boss_name = "El DJ Fantasma"
 
-[node name="Fragment" parent="." instance=ExtResource("7")]
-position = Vector2(1450, 442)
+[node name="Fragment" parent="." instance=ExtResource("4")]
+position = Vector2(2700, 442)
 
-[node name="ExitDoor" parent="." instance=ExtResource("8")]
-position = Vector2(1540, 489)
+[node name="ExitDoor" parent="." instance=ExtResource("5")]
+position = Vector2(2830, 489)
 
-[node name="HUD" parent="." instance=ExtResource("9")]
+[node name="PrimerPlano" type="Parallax2D" parent="."]
+z_index = 20
+scroll_scale = Vector2(1.3, 1.3)
+repeat_size = Vector2(1600, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="PrimerPlano"]
+self_modulate = Color(1, 1, 1, 0.85)
+position = Vector2(0, -260)
+centered = false
+texture = ExtResource("15")
+
+[node name="HUD" parent="." instance=ExtResource("6")]

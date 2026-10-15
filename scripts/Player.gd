@@ -13,6 +13,10 @@ const ACCELERATION := 1600.0
 const FRICTION := 1800.0
 const AIR_ACCEL := 1100.0
 const AIR_FRICTION := 900.0
+# Superficies resbalosas (repisas con sangre de la enfermería)
+const SLIP_ACCEL := 520.0       ## tarda más en tomar velocidad
+const SLIP_FRICTION := 210.0    ## y mucho más en frenar: patina
+const SLIP_LAND_PUSH := 95.0    ## empujón al aterrizar: se desliza un poco aunque caiga quieto
 
 # Parámetros de Salto (Game Feel profesional)
 const JUMP_VELOCITY := -430.0
@@ -55,6 +59,8 @@ var _initial_sprite_y := -56.0
 var _initial_col_y := -48.0
 var _initial_col_height := 96.0
 var _capsule_shape: CapsuleShape2D
+var _floor_slippery := false
+var _was_on_floor := true
 
 
 func _ready() -> void:
@@ -123,9 +129,13 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = facing < 0
 		muzzle.position.x = abs(muzzle.position.x) * facing
 		var accel := ACCELERATION if is_on_floor() else AIR_ACCEL
+		if is_on_floor() and _floor_slippery:
+			accel = SLIP_ACCEL
 		velocity.x = move_toward(velocity.x, dir * max_speed, accel * delta)
 	else:
 		var friction := FRICTION if is_on_floor() else AIR_FRICTION
+		if is_on_floor() and _floor_slippery:
+			friction = SLIP_FRICTION
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
 
 
@@ -150,6 +160,7 @@ func _physics_process(delta: float) -> void:
 		_shoot()
 
 	move_and_slide()
+	_update_floor_material()
 
 	# 8. Animaciones adaptativas
 	_update_animation(dir)
@@ -410,3 +421,27 @@ func die(_reason: String = "damage") -> void:
 
 	# Sacudida inicial contundente
 	add_screen_shake(12.0)
+
+
+
+## ¿Está parado sobre una superficie resbalosa? Al aterrizar en una, patina un poco
+## hacia donde mira y salpica sangre.
+func _update_floor_material() -> void:
+	var slip := false
+	if is_on_floor():
+		for i in get_slide_collision_count():
+			var c := get_slide_collision(i)
+			var col := c.get_collider()
+			if c.get_normal().y < -0.7 and col and col.get("slippery") == true:
+				slip = true
+				break
+	if slip and not _was_on_floor:
+		var dir := facing if absf(velocity.x) < 1.0 else int(sign(velocity.x))
+		velocity.x += dir * SLIP_LAND_PUSH
+		var splash = _blood_scene.instantiate()
+		var parent: Node = get_tree().current_scene if get_tree().current_scene else get_parent()
+		parent.add_child(splash)
+		splash.global_position = global_position + Vector2(0, -4)
+		splash.scale = Vector2(0.6, 0.6)
+	_floor_slippery = slip
+	_was_on_floor = is_on_floor()

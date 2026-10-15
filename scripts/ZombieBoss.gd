@@ -14,6 +14,13 @@ signal defeated
 @export var boss_name: String = "Profesor Zombie"
 
 const BRAIN_SPEED := 340.0
+const GROANS := [
+	preload("res://assets/audio/zombie_groan_1.wav"),
+	preload("res://assets/audio/zombie_groan_3.wav"),
+]
+const SCREAM := preload("res://assets/audio/zombie_scream.wav")
+var _voice: AudioStreamPlayer2D
+var _groan_timer := 3.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var throw_timer: Timer = $ThrowTimer
@@ -43,9 +50,22 @@ func _ready() -> void:
 	throw_timer.start()
 	sprite.animation_finished.connect(_on_animation_finished)
 	sprite.play("idle")
+	_voice = AudioStreamPlayer2D.new()
+	_voice.max_distance = 1500.0
+	add_child(_voice)
 
 
 func _physics_process(delta: float) -> void:
+	# el Profesor Zombie también se queja (más grave) cuando Motocle está cerca
+	_groan_timer -= delta
+	if _groan_timer <= 0.0 and not _voice.playing:
+		_groan_timer = randf_range(3.0, 5.5)
+		var p := get_tree().get_first_node_in_group("player") as Node2D
+		if p and p.global_position.distance_to(global_position) < 900.0:
+			_voice.stream = GROANS.pick_random()
+			_voice.pitch_scale = randf_range(0.66, 0.74)
+			_voice.volume_db = -5.0
+			_voice.play()
 	if not is_on_floor():
 		velocity.y += 900 * delta
 	else:
@@ -133,7 +153,23 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		GameManager.shake_camera(8.5)
 		GameManager.add_score(1000)
+		_scream_detached()
 		defeated.emit()
 		queue_free()
+
+
+## El jefe se borra al morir, así que el grito se reproduce en un nodo aparte
+## que se queda en la escena hasta que termina.
+func _scream_detached() -> void:
+	var sfx := AudioStreamPlayer2D.new()
+	sfx.stream = SCREAM
+	sfx.pitch_scale = 0.72
+	sfx.volume_db = 2.0
+	sfx.max_distance = 2000.0
+	var parent := get_tree().current_scene if get_tree().current_scene else get_parent()
+	parent.add_child(sfx)
+	sfx.global_position = global_position
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()
 
 

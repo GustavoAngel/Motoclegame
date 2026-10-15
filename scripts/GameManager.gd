@@ -32,10 +32,10 @@ const LEVEL_DATA := [
 		"tip": "⚠️ AVISO TÁCTICO: Mantén la distancia; un solo toque zombie causa contagio instantáneo. Agáchate con [S] para disparar a baja altura."
 	},
 	{
-		"building": "BIBLIOTECA CENTRAL",
-		"status": "CATÁLOGO POSEÍDO",
-		"objective": "Supera los drones archivistas, esquiva los libros que vuelan sin control y destruye la torre del Catálogo Central.",
-		"tip": "💡 AVISO TÁCTICO: Puedes gatear agachado con [S] + [A/D] para esquivar proyectiles altos mientras disparas."
+		"building": "ENFERMERÍA DEL CAMPUS",
+		"status": "PACIENTES INFECTADOS",
+		"objective": "Recorre los pasillos de la enfermería, cuidado con las mini ardillas rabiosas que muerden, y enfrenta al Dr. Ardilla.",
+		"tip": "💡 AVISO TÁCTICO: Las mini ardillas se lanzan a morderte si te acercas: dispárales desde lejos. Gatea con [S] + [A/D] para esquivar las jeringas."
 	},
 	{
 		"building": "CAFETERÍA DEL CAMPUS",

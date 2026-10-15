@@ -49,15 +49,15 @@ Es una historia de acción-comedia, sin violencia realista: los "enemigos" son m
 - **Qué pasó:** aquí empezó la infección. GLITCH.exe no solo poseyó las máquinas: el contagio también convirtió en zombies a los ayudantes de laboratorio (ardillas) que trabajaban de madrugada. No atacan a distancia, pero basta con que te toquen para contagiarte — si un zombie te alcanza, pierdes al instante, sin importar cuánta vida te quede. El escenario es el propio laboratorio de sistemas acordonado como zona de contención ("Puebla Tecamachalco — Zona de Contención Zombie").
 - **Enemigos:** una horda de ardillas zombie de tres tipos — *Shambler* (caminan lento pero implacables), *Runner* (corren directo hacia ti, las más peligrosas) y *Rotten* (arrastran los pies, muy lentas pero resistentes a los disparos). Los tres tipos persiguen a Motocle en cuanto lo detectan. El recorrido es largo, con una zona de calle en ruinas llena de obstáculos y plataformas antes de llegar al edificio de contención donde espera el jefe.
 - **Jefe de nivel:** el **Profesor Zombie**, el titular del laboratorio convertido por el virus. No dispara: lanza cerebros arrancados de los servidores del laboratorio como proyectiles, en ráfagas cronometradas mientras patrulla la sala.
-- **Fragmento de Avelina:** un holograma corrupto que dice "Motocle... GLITCH.exe también contagió al Profesor Reyes y a los ayudantes del laboratorio... busca en la biblioteca, el virus dividió mis archivos..."
+- **Fragmento de Avelina:** un holograma corrupto que dice "Motocle... GLITCH.exe también contagió al Profesor Reyes y a los ayudantes del laboratorio... busca en la enfermería, el virus dividió mis archivos..."
 - **Función pedagógica sugerida:** nivel tutorial — controles básicos, salto, disparo, y la diferencia entre "enemigo que hiere" (le disparas y aguantas golpes) vs. "enemigo que descalifica al contacto" (hay que evitarlo o eliminarlo a distancia).
 
-### Nivel 2 — Biblioteca
-- **Qué pasó:** los libreros automáticos y el sistema de préstamos enloquecieron; libros vuelan solos.
-- **Enemigos:** libros voladores, drones bibliotecarios, estanterías que se cierran como trampas.
-- **Jefe de nivel:** el "Catálogo Central", una torre de fichas que lanza libros en ráfaga.
+### Nivel 2 — Enfermería
+- **Qué pasó:** el virus llegó a la enfermería del campus por el sistema de expedientes médicos. Las paredes del pasillo están agrietadas con energía morada de GLITCH.exe, las camillas y los sueros quedaron abandonados y, por las ventanas, se ve el campus de noche.
+- **Enemigos:** 4 tipos de enemigos secundarios (en desarrollo). El primero son las **mini ardillas doctoras**: corren por el pasillo y, cuando Motocle se acerca, se agachan con rabia y se lanzan a morderlo.
+- **Jefe de nivel:** el **Dr. Ardilla**, el médico de la enfermería convertido por el virus. Recibe a Motocle carcajeándose ("¡JA, JA, JA!"), luego lo ataca con ráfagas de jeringas y se burla riéndose cada vez que le quita un corazón.
 - **Fragmento de Avelina:** pista hacia la cafetería.
-- **Función pedagógica sugerida:** introduce plataformas móviles / temporizadas.
+- **Función pedagógica sugerida:** introduce plataformas móviles y enemigos con patrón de aviso (se preparan antes de atacar): leer la señal y reaccionar.
 
 ### Nivel 3 — Cafetería
 - **Qué pasó:** las máquinas expendedoras y la cocina automatizada se volvieron una zona de guerra de comida.

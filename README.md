@@ -1,7 +1,7 @@
 # Motocle: Operación Campus
 
 Plataformas 2D hecho en **Godot 4** (probado con Godot 4.3+) para tu clase en la UTT.
-Motocle recorre 5 edificios del campus para rescatar a Avelina de las garras de **GLITCH.exe**.
+Motocle recorre 5 edificios del campus (Sistemas, Enfermería, Cafetería, Auditorio y El H) para rescatar a Avelina de las garras de **GLITCH.exe**.
 
 ## Cómo abrirlo
 
@@ -58,7 +58,8 @@ scenes/
   Player.tscn, Enemy.tscn, Boss.tscn, Bullet.tscn, Fragment.tscn, ExitDoor.tscn, Platform.tscn, HUD.tscn, DialogueBox.tscn -> piezas reutilizables
 
   ZombieShambler.tscn, ZombieRunner.tscn, ZombieRotten.tscn -> los 3 tipos de zombie de la horda del nivel 1
-  Level1_Sistemas.tscn, Level2_Biblioteca.tscn, Level3_Cafeteria.tscn, Level4_Auditorio.tscn, Level5_ElH.tscn -> los 5 niveles
+  Level1_Sistemas.tscn, Level2_Biblioteca.tscn (Enfermería), Level3_Cafeteria.tscn, Level4_Auditorio.tscn, Level5_ElH.tscn -> los 5 niveles
+  (el archivo del nivel 2 conserva el nombre "Biblioteca" para no romper rutas, pero el nivel es la Enfermería)
   WinScreen.tscn          -> pantalla de victoria
 assets/
   sprites/    -> Motocle (recortado de tu imagen de referencia), Avelina y todos los enemigos/jefes
@@ -127,19 +128,161 @@ mismo script `ZombieEnemy.gd`:
   animación `"death"` (sin loop) del `AnimatedSprite2D` — al terminar, se queda
   congelada sola en el último cuadro, no hace falta borrar el nodo.
 
+**Sonidos de los zombies.** Mientras persiguen a Motocle (a menos de 750 px) se quejan
+cada 2.5-6 s con uno de 3 quejidos roncos (`zombie_groan_1/2/3.wav`); como máximo 3
+zombies se quejan al mismo tiempo para que no sea un ruidero. Al morir lanzan un grito
+de agonía corto (`zombie_scream.wav`). El tono cambia por tipo: Runner más agudo, Rotten
+más grave. El Profesor Zombie también se queja y grita al morir, con voz más grave.
+Los sonidos están generados por síntesis; se pueden reemplazar por otros `.wav` con el
+mismo nombre.
+
 Para agregar más zombies a la horda, o cambiar sus posiciones, solo duplica cualquiera
 de los nodos `ZombieX` dentro de `Level1_Sistemas.tscn` y ajusta su `position`.
 
-El fondo del nivel (`assets/backgrounds/bg_zombies.png`) es la versión larga del
-escenario que compartiste ("Puebla Tecamachalco — Zona de Contención Zombie", con el
-letrero de "LEVEL START"), a resolución nativa 1584x672; el nodo `Background` la
-reescala a `Vector2(1.9571, 1.1845)` y la desplaza a `position = (-50, -110)` para
-cubrir el ancho del nivel (3000px) más un margen de sobra en los cuatro lados, así la
-cámara nunca muestra espacio vacío al saltar o moverse.
+El arte original del nivel (`assets/backgrounds/bg_zombies.png`, "Puebla Tecamachalco —
+Zona de Contención Zombie", 1584x672) ahora es la capa media del parallax con escala
+**uniforme** 1.3 (antes estaba estirada 1.96 × 1.18 y se deformaba). Ver la sección
+"Perspectiva 2.5D" más abajo.
 
-Antes de llegar al edificio (y al jefe) hay un tramo de obstáculos: 9 plataformas
-elevadas (`PlatformA` a `PlatformI`) a distintas alturas que obligan a saltar con más
-cuidado mientras la horda persigue a Motocle, mucho más largo que el tramo original.
+El nivel mide **3900 px** (30 % más que la versión anterior) y tiene 16 zombies.
+Antes de llegar al jefe hay 17 plataformas en varias alturas: una escalera hacia una
+torre de vigilancia, una plataforma móvil horizontal, una ruta alta que llega hasta
+y = 230 y un elevador vertical.
+
+### Derrumbe en la zona del jefe
+
+Cuando Motocle cruza `collapse_trigger_x` (x = 3330, propiedad de `Level.gd`):
+
+1. Aparece el aviso "¡LA ESTRUCTURA SE ESTÁ DERRUMBANDO!", la cámara se sacude y
+   **todas las plataformas flotantes del nivel empiezan a temblar** (sueltan polvo
+   por abajo). Mientras el jefe siga vivo hay retumbos periódicos.
+2. **Primer aterrizaje** sobre una plataforma: se agrieta, suena un crujido y tiembla más.
+3. **Segundo aterrizaje**: tiembla violentamente durante 0.38 s (tiempo para saltar) y
+   se rompe. Los trozos salen volando con giro y gravedad, sale una nube de polvo
+   (`scripts/PlatformDebris.gd`) y la colisión se desactiva.
+
+**Plataformas frágiles desde el inicio:** en el nivel 1 la propiedad `fragile_platforms`
+de `Level.gd` está activa, así que todas las plataformas flotantes cuentan aterrizajes
+desde que empieza el nivel: al primer contacto se agrietan y empiezan a temblar, y al
+segundo se rompen con la misma animación. El aviso de la zona del jefe hace temblar las
+que todavía no se han pisado.
+
+El número de aterrizajes se configura con `landings_to_break` en cada plataforma, y el
+sonido es `assets/audio/crumble.wav`. Para usar el derrumbe en otro nivel basta con
+poner `collapse_trigger_x` en su nodo raíz. Si Motocle muere, el nivel se recarga y
+las plataformas vuelven a estar completas.
+
+## Perspectiva 2.5D, fondos y plataformas
+
+Los 5 niveles usan ahora una presentación **2.5D** (mundo 2D que simula profundidad):
+
+**Fondo en capas (parallax).** Cada nivel tiene un nodo `Fondo` con capas
+`Parallax2D` que se mueven a distinta velocidad que la cámara:
+
+| Capa | `scroll_scale` | Qué contiene |
+|---|---|---|
+| `Cielo` | 0 (fija) | degradado de cielo / pared del fondo |
+| `Lejano` | 0.15 | ventanales, telones, siluetas de edificios |
+| `Medio` | 0.40 | estantes, racks, butacas, máquinas |
+| `Cercano` | 0.75 | mesas, bocinas, barricadas |
+| `PrimerPlano` | 1.30 | siluetas que pasan **delante** del jugador |
+
+Las capas lejanas tienen un `modulate` más oscuro/apagado (perspectiva atmosférica)
+para que el área de juego destaque. Las imágenes están en
+`assets/backgrounds/<edificio>/` (`cielo`, `lejano`, `medio`, `cercano`, `frente`) y se
+repiten en horizontal sin costura. Se puede ajustar todo desde el editor: mueve el
+`Sprite2D` de una capa o cambia su `scroll_scale`.
+
+**Plataformas con volumen (`scripts/Platform25D.gd`).** `Platform.tscn` ya no es un
+sprite plano: dibuja una cara superior que se aleja hacia el fondo, una cara frontal y
+una cara lateral que aparece según de qué lado de la cámara esté (el punto de fuga es
+el centro de la cámara, así que las caras cambian al caminar, como en 3D). Propiedades:
+
+- `size`: ancho y grosor. El origen es el **centro del borde superior**: una plataforma
+  en y = 455 deja a los personajes parados en y = 455.
+- `is_ground`: piso largo y sólido. El piso puede tener **huecos** (pits) entre segmentos;
+  caer por uno = perder.
+- `move_offset` / `move_duration`: plataforma móvil de ida y vuelta (lleva al jugador).
+- `supports`: patas/andamios que bajan hasta el piso.
+- El estilo (concreto, biblioteca, cafeteria, auditorio, servidor) lo aplica `Level.gd`
+  con su propiedad `platform_style`.
+
+Las plataformas flotantes son **de un solo sentido** (`one_way_collision`): se atraviesan
+saltando desde abajo, estilo Metal Slug.
+
+**Sombras (`scripts/Shadow25D.gd`).** `Level.gd` agrega una sombra elíptica bajo Motocle
+y cada enemigo; se hace más chica y tenue mientras más alto salta.
+
+**Cámara.** `Level.gd` pone límites a la cámara según `level_width`, así ya no se ven
+zonas grises fuera del mapa.
+
+**Alturas de salto.** El salto máximo de Motocle es ~110 px de alto y ~210 px de largo.
+Los escalones están a 455 / 380 / 305 / 230 (75-77 px entre niveles) y ningún hueco pasa
+de 140 px. Las plataformas originales quedaban a 113 px del piso, justo fuera de alcance.
+
+| Nivel | Ancho | Plataformas | Huecos | Móviles |
+|---|---|---|---|---|
+| 1 Sistemas | 3000 | 14 | 0 (horda zombie) | 1 horizontal |
+| 2 Enfermería | 3780 | 20 | 4 | 1 vertical + 1 horizontal |
+| 3 Cafetería | 2700 | 11 | 1 | 1 horizontal (charola) |
+| 4 Auditorio | 2900 | 14 | 1 (foso de orquesta) | 1 horizontal (rig de luces) |
+| 5 El H | 3000 | 14 | 3 | 2 elevadores |
+
+## Nivel 2: la Enfermería — mini ardillas y el Dr. Ardilla
+
+El nivel 2 transcurre en la **enfermería del campus**. Tendrá 4 tipos de enemigos secundarios; el primero ya está listo.
+(Los libros voladores provisionales se quitaron.)
+
+**Mini ardilla (`MiniSquirrel.tscn` + `scripts/MiniSquirrel.gd`)** — 10 en el nivel
+(el nivel 2 mide 3780 px, 40 % más que antes).
+Corre de un lado a otro del pasillo entre `left_limit` y `right_limit` y no se cae
+por las orillas (usa un `RayCast2D` que revisa el piso de enfrente). Cuando Motocle
+está a menos de `detect_range` (290 px) y a su altura, se lanza desde lejos (410 px/s):
+
+0. **Persigue** (modo agresivo): si Motocle está a menos de `chase_range` (460 px) y a
+   su altura, deja de patrullar y corre hacia él a `chase_speed` (195 px/s). Si llega a la
+   orilla de su repisa o al límite de su pasillo, se queda ahí acechando.
+1. **Prepara** (0.18 s): se agacha con cara de rabia (aviso para el jugador).
+2. **Se lanza** hacia Motocle con el hocico abierto y suena `assets/audio/bite.wav`
+   (gruñido + mordida). Si lo alcanza en el aire, le quita 1 corazón.
+3. **Aterriza** y **se recupera** (0.3 s, momento ideal para dispararle) y en 0.45 s
+   puede volver a lanzarse.
+
+Tiene 20 de vida y da 150 puntos. Animaciones: `run` (6 cuadros), `windup`, `lunge`
+(3 cuadros), `land`, `recover` y `death` (7 cuadros), en `assets/sprites/mini_squirrel/`.
+
+**Muerte:** al bajarle la vida sale despedida hacia atrás por el golpe y reproduce tu
+animación de 7 cuadros (aturdida con estrellitas, sale volando, cae mareada con ojos de
+espiral y queda tendida con ojos en X). Se queda en el piso 1.6 s y luego se desvanece.
+
+**Jefe: Dr. Ardilla (`DoctorBoss.tscn` + `scripts/DoctorBoss.gd`)** — reemplaza al
+Catálogo Central. Espera quieto hasta que Motocle llega a `intro_distance` (380 px);
+entonces lo **recibe carcajeándose** ("¡JA, JA, JA!", animación de risa de 3 cuadros y
+`assets/audio/doctor_laugh.wav`). Durante la bienvenida es invulnerable. Después pelea:
+patrulla y lanza ráfagas de 3 jeringas apuntadas a Motocle, y cada vez que Motocle
+pierde un corazón se vuelve a burlar riéndose.
+
+**Repisas ensangrentadas y resbalosas.** Las plataformas del nivel 2 usan el estilo
+`enfermeria` de `Platform25D.gd`: repisas metálicas blancas con franja verde, charcos de
+sangre en la cara superior y chorros que escurren por el frente, con gotas que se forman
+en la punta y caen (animado). Además `Level.gd` tiene `slippery_platforms = true`, así
+que son **resbalosas**: al aterrizar Motocle patina unos 20 px y salpica sangre, y al
+soltar la dirección tarda en frenar (~70 px contra ~12 px en piso normal). Los valores
+están en `Player.gd` (`SLIP_ACCEL`, `SLIP_FRICTION`, `SLIP_LAND_PUSH`). El piso del
+pasillo es linóleo morado y no resbala.
+
+**Fondo del nivel 2 (enfermería).** Usa las 3 capas que compartiste, en
+`assets/backgrounds/hospital/`, sin el magenta:
+`lejano.png` (campus de noche por la ventana, scroll 0.15), `medio.png` (pasillo con
+grietas moradas; los huecos que eran magenta ahora son transparentes y dejan ver el
+campus de la capa lejana, scroll 0.40) y `cercano.png` (camas, carrito, sueros, camilla
+y los doctorcitos asomándose, scroll 0.75). `frente.png` son siluetas del mismo
+mobiliario que pasan por delante. Las capas de biblioteca anteriores siguen en
+`assets/backgrounds/biblioteca/` por si las quieres reusar.
+
+Los sprites se recortaron de las hojas con fondo magenta que compartiste (fondo quitado,
+cuadros separados y alineados por los pies). Los sonidos se generaron por síntesis; para
+cambiarlos, reemplaza los `.wav` con el mismo nombre.
 
 ## Jefe del nivel 1: Profesor Zombie
 
