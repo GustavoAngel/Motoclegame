@@ -302,7 +302,7 @@ desaparece y reaparece en otra parte de la pantalla para atacar desde otro ángu
   - tiene piso firme o una repisa donde quepa completo;
   - no está en un hueco ni en una repisa que se mueve;
   - queda entre `teleport_min_dist` (230 px) y `teleport_max_dist` (560 px) de
-    Motocle;
+	Motocle;
   - de preferencia, del lado contrario a donde estaba.
   
   Sobre una repisa no patrulla, para no caerse.
@@ -354,13 +354,13 @@ cambiarlos, reemplaza los `.wav` con el mismo nombre.
   babeando, en ida y vuelta a 5 fps). No se mueven.
 - **Al acercarse Motocle** (`wake_range`, 480 px) **o si le disparan:**
   - Se levantan (`stand`: tus cuadros 2 y 1), gruñen y empiezan a correr con tu
-    animación de carrera (`run`, 6 cuadros a 12 fps, que se acelera con su
-    velocidad).
+	animación de carrera (`run`, 6 cuadros a 12 fps, que se acelera con su
+	velocidad).
   - Corren de un lado a otro sobre su superficie y nunca se caen de una repisa
-    corriendo (un rayo revisa el piso de enfrente).
+	corriendo (un rayo revisa el piso de enfrente).
   - Si Motocle está a su altura lo persiguen a toda velocidad (245).
   - Ya cerca (150 px) se le lanzan a morder con un salto; ese salto sí puede
-    sacarlos de la repisa.
+	sacarlos de la repisa.
 - **Mordida:** quita 1 corazón (no es derrota instantánea como los zombies) y suena
   `bite.wav`.
 - **Hitbox:** además del cuerpo (95×55), tienen una caja para la cabeza (`HeadShape`,
@@ -406,13 +406,13 @@ altura (172 px) y alineados por los pies.
 - `intro` + `roar` (**presentación**):
   - *Cuándo:* al acercarse Motocle (`wake_distance`, 360 px).
   - *`intro`:* cuadros 1–5 de tu secuencia (`intro_01..05.png`). Entra caminando
-    unos pasos, se acomoda los lentes rotos y abre la boca.
+	unos pasos, se acomoda los lentes rotos y abre la boca.
   - *`roar`:* cuadro 6 (`intro_06.png`), con los brazos arriba y el aura verde. Ruge
-    con furia y dolor durante 1.9 s (`INTRO_ROAR_TIME`) con el sonido
-    `assets/audio/zombie_boss_roar.wav`: un gruñido grave y áspero que crece y se
-    quiebra en un grito.
+	con furia y dolor durante 1.9 s (`INTRO_ROAR_TIME`) con el sonido
+	`assets/audio/zombie_boss_roar.wav`: un gruñido grave y áspero que crece y se
+	quiebra en un grito.
   - *Efectos:* sacudida fuerte de cámara, ondas de aire que salen de su boca y
-    texto "¡¡GRRRAAAAAHHH!!".
+	texto "¡¡GRRRAAAAAHHH!!".
   - *Invulnerable* durante toda la presentación; al terminar empieza la pelea.
 - `idle`: postura de frente (`idle.png`).
 - `walk`: tu secuencia de caminado de perfil (`walk_01..06.png`), en bucle a 7 fps.
@@ -444,28 +444,28 @@ quita 1 corazón; no es derrota instantánea como con los zombies comunes.
   presentación con el rugido (ver arriba) y empieza la pelea.
 - **Fase 1** (vida > 66 %):
   - Entre ataques camina rápido a otro punto de la arena, a media distancia de
-    Motocle.
+	Motocle.
   - Lanza un cerebro apuntado a Motocle.
   - **Embestida:**
-    - *Aviso:* tiembla, parpadea en rojo y aparece un "!".
-    - *Ataque:* cruza la pantalla corriendo y levantando polvo. Se esquiva
-      saltando por encima.
-    - *Choque:* si llega a la orilla de la arena, se estrella y queda aturdido
-      (★ ★) un momento. Es el mejor momento para dispararle.
+	- *Aviso:* tiembla, parpadea en rojo y aparece un "!".
+	- *Ataque:* cruza la pantalla corriendo y levantando polvo. Se esquiva
+	  saltando por encima.
+	- *Choque:* si llega a la orilla de la arena, se estrella y queda aturdido
+	  (★ ★) un momento. Es el mejor momento para dispararle.
 - **Fase 2** (vida ≤ 66 %): ruge y se vuelve 25 % más rápido. Además:
   - **Abanico de 3 cerebros.**
   - **Salto aplastante:**
-    - *Impulso:* se agacha para tomar impulso y brinca en arco hasta donde está
-      Motocle.
-    - *Caída:* cae con una sacudida fuerte y manda dos ondas de choque por el
-      piso, una a cada lado (`ShockWave.gd`).
-    - *Esquivar:* las ondas solo golpean si Motocle está en el piso; se esquivan
-      saltando o parado en una repisa.
+	- *Impulso:* se agacha para tomar impulso y brinca en arco hasta donde está
+	  Motocle.
+	- *Caída:* cae con una sacudida fuerte y manda dos ondas de choque por el
+	  piso, una a cada lado (`ShockWave.gd`).
+	- *Esquivar:* las ondas solo golpean si Motocle está en el piso; se esquivan
+	  saltando o parado en una repisa.
 - **Fase 3** (vida ≤ 33 %): "¡¡FURIA!!", tinte rojizo y 50 % más rápido. Además:
   - **Lluvia de cerebros:** avienta cerebros al aire y caen desde arriba de la
-    pantalla sobre Motocle y a su alrededor.
+	pantalla sobre Motocle y a su alrededor.
   - Antes de cada caída, una marca roja parpadeante en el piso
-    (`GroundWarning.gd`) avisa dónde va a caer.
+	(`GroundWarning.gd`) avisa dónde va a caer.
 - **Derrota:** grita, cae de espaldas, se hunde un poco y se desvanece. Al morir
   aparece el fragmento como antes.
 
@@ -599,9 +599,9 @@ arma con `player_weapon` (en el nodo raíz del nivel: `"rifle"` o `"shotgun"`), 
   punta del arma, abiertos en un cono de ~24° (`SHOTGUN_SPREAD`).
   - *Alcance corto:* cada perdigón vuela ~288 px (`SHOTGUN_RANGE`).
   - *Daño:* 6 de daño cada uno (`SHOTGUN_DAMAGE`). A quemarropa entran casi todos
-    (~30–42 de daño), y de lejos, pocos o ninguno.
+	(~30–42 de daño), y de lejos, pocos o ninguno.
   - *Varios enemigos:* como cada perdigón es independiente, el cono le pega a
-    varios enemigos a la vez.
+	varios enemigos a la vez.
 - **Quemarropa:** si Motocle dispara mientras una mini ardilla está pegada a él
   (a menos de 72 px, adelante o atrás), esa ardilla muere al instante y sale
   volando lejos, girando (`Player._point_blank_launch()` →
@@ -628,10 +628,10 @@ arma con `player_weapon` (en el nodo raíz del nivel: `"rifle"` o `"shotgun"`), 
 - **Mini explosión:** `scripts/MuzzleFlash.gd` dibuja en la boca del arma un
   fogonazo:
   - un núcleo blanco-amarillo, rayos de fuego naranjas en abanico y brillo
-    aditivo;
+	aditivo;
   - dura 0.1 s y va pegado a Motocle;
   - además suelta una bocanada de humo gris que sube y se desvanece en 0.45 s,
-    y se queda en el aire aunque Motocle se mueva.
+	y se queda en el aire aunque Motocle se mueva.
   
   El tamaño se ajusta en `_shoot()` (`flash.scale`, 1.3 por defecto) y la
   duración en las constantes `FLASH_LIFE` / `SMOKE_LIFE`.
@@ -651,9 +651,9 @@ como la patada de un disparo potente. Durante ese instante no responde al stick.
   llena un segmento (`GameManager.register_boss_hit()`).
   - Con 3 golpes al jefe la barra queda lista.
   - Con la escopeta, los perdigones de un mismo disparo cuentan como un solo golpe
-    (máximo uno cada 0.25 s, `BOSS_HIT_COOLDOWN`).
+	(máximo uno cada 0.25 s, `BOSS_HIT_COOLDOWN`).
   - Los golpes durante la presentación o la teletransportación no cuentan, porque
-    no le quitan vida.
+	no le quitan vida.
   - El propio hadouken no recarga la barra al pegarle al jefe.
 - **Llena:** después de 3 enemigos (`SPECIAL_KILLS`) brilla y parpadea
   "¡LISTO! [K]".
@@ -666,46 +666,46 @@ lanza una bola de energía tipo hadouken (`scripts/EnergyBlast.gd`) y vacía la 
 - **Letrero "¡HADOUKEN!"** (`scripts/HadoukenText.gd`): aparece al soltar la bola,
   estilo juego de peleas.
   - *Entrada:* una franja de energía azul cruza la pantalla y el texto cae de
-    golpe, grande e inclinado, y rebota a su tamaño.
+	golpe, grande e inclinado, y rebota a su tamaño.
   - *Estilo:* amarillo con contorno rojo oscuro, sombra azul y brillo que palpita;
-    tiembla un instante al aterrizar.
+	tiembla un instante al aterrizar.
   - *Salida:* sale disparado hacia adelante mientras se desvanece (≈1.2 s).
 - **Sonido estilo Dragon Ball Z** (`assets/audio/hadouken.wav`, 2.3 s):
   - *Carga:* un zumbido de ki que sube de tono, con trémolo y chispas eléctricas
-    que crepitan, y va creciendo de volumen.
+	que crepitan, y va creciendo de volumen.
   - *Disparo:* justo cuando sale la bola, un golpe subgrave, un chasquido, el
-    rugido del rayo (zumbido grave distorsionado con vibrato y flanger) y un
-    soplido "zhhhh" que barre de agudo a grave con cola larga.
+	rugido del rayo (zumbido grave distorsionado con vibrato y flanger) y un
+	soplido "zhhhh" que barre de agudo a grave con cola larga.
   - *Explosión azul al chocar* (`scripts/KiExplosion.gd`, ≈0.9 s): un destello
-    blanco que se vuelve azul, 14 rayos de energía en estrella, dos ondas
-    expansivas, chispas celestes que salen volando y caen, y un resplandor azul
-    que se apaga poco a poco. Si la bola no encuentra enemigo, solo se desvanece
-    con un destello pequeño.
+	blanco que se vuelve azul, 14 rayos de energía en estrella, dos ondas
+	expansivas, chispas celestes que salen volando y caen, y un resplandor azul
+	que se apaga poco a poco. Si la bola no encuentra enemigo, solo se desvanece
+	con un destello pequeño.
   - *Impacto* (`assets/audio/ki_explosion.wav`): un estruendo de explosión
-    (boom grave, retumbo, chispas y un timbre metálico) y una sacudida de cámara
-    más fuerte.
+	(boom grave, retumbo, chispas y un timbre metálico) y una sacudida de cámara
+	más fuerte.
 - **Persecución:**
   - Busca al **enemigo más cercano** dentro de 1100 px; los que están enfrente de
-    Motocle tienen prioridad.
+	Motocle tienen prioridad.
   - Lo persigue girando suavemente; si el objetivo muere antes, busca otro.
   - Sin enemigos cerca, vuela derecho unos 2.6 s y se desvanece.
 - **Impacto:**
   - Hace **80 de daño**, suficiente para cualquier enemigo común y un buen golpe
-    a los jefes.
+	a los jefes.
   - Explota con una onda que hace **35 de daño** a los enemigos a menos de 110 px.
   - Sacude la cámara.
 - **Animación de lanzamiento** (soldado: nivel 1 y niveles 3 a 5):
   - *Cuadros:* `assets/sprites/cast/cast_01..06.png`, a 15 fps.
   - *Secuencia:* Motocle toma impulso, gira la energía con un remolino, empuja
-    con ambas manos y regresa a su guardia.
+	con ambas manos y regresa a su guardia.
   - *Disparo:* la bola sale de sus manos en el cuadro 4 (`CAST_RELEASE_FRAME`).
-    El sonido arranca con la animación para que el estallido coincida.
+	El sonido arranca con la animación para que el estallido coincida.
   - *Mientras dura (≈0.4 s):* no dispara ni cambia de animación.
   - *Nivel 2 (bata de hospital):* usa su propia secuencia
-    (`assets/sprites/skins/hospital/cast_01..06.png`). Junta la energía en la
-    cadera durante 3 cuadros, empieza a empujar y estira ambas manos al frente.
-    La bola sale en el cuadro 5 (`SKIN_CAST_RELEASE`). El sonido se retrasa un
-    poco para que su estallido coincida con ese cuadro.
+	(`assets/sprites/skins/hospital/cast_01..06.png`). Junta la energía en la
+	cadera durante 3 cuadros, empieza a empujar y estira ambas manos al frente.
+	La bola sale en el cuadro 5 (`SKIN_CAST_RELEASE`). El sonido se retrasa un
+	poco para que su estallido coincida con ese cuadro.
 - **Recarga:** los enemigos que mate la bola también cuentan para volver a llenar
   la barra.
 
@@ -718,7 +718,7 @@ el nivel 1 no lo tiene). La lógica está en `Player.gd` (`_update_shield`,
 
 - **Cómo se usa:** se mantiene presionada la **I** (o L1 / LB en el control).
   - Mientras está arriba, Motocle se planta: no camina, no salta y no dispara,
-    pero sí puede voltearse.
+	pero sí puede voltearse.
   - Al soltar la tecla, baja el escudo.
 - **Animación (nivel 2):** usa tu secuencia
   (`assets/sprites/skins/hospital/shield_01..05.png`, 18 fps):
@@ -733,42 +733,42 @@ el nivel 1 no lo tiene). La lógica está en `Player.gd` (`_update_shield`,
   y chispas, del mismo tamaño y en el mismo lugar que el de tu dibujo.
 - **Qué bloquea (solo lo que choca con el escudo):**
   - *Proyectiles enemigos* (balas, jeringas, cerebros): se deshacen si tocan el
-    rectángulo del escudo, que está adelante de Motocle (un `Area2D` los intercepta).
+	rectángulo del escudo, que está adelante de Motocle (un `Area2D` los intercepta).
   - *Golpes cuerpo a cuerpo* (mordidas de ardillas y perros, embestidas del jefe,
-    zombies, ondas de choque por el piso): se bloquean si vienen de enfrente.
+	zombies, ondas de choque por el piso): se bloquean si vienen de enfrente.
   - Lo que llega **por la espalda** o **desde arriba** (por ejemplo la lluvia de
-    cerebros) sí hace daño.
+	cerebros) sí hace daño.
   - Con la tecla recién presionada no bloquea al instante: el escudo protege en
-    cuanto se forma (cuadro 4 de la animación, ≈0.17 s; con el soldado, 0.12 s).
+	cuanto se forma (cuadro 4 de la animación, ≈0.17 s; con el soldado, 0.12 s).
 - **Al bloquear:**
   - Destello verde y un "¡clang!" metálico con chispa eléctrica
-    (`assets/audio/shield_block.wav`).
+	(`assets/audio/shield_block.wav`).
   - Motocle retrocede un poco y el enemigo que estaba pegado sale empujado.
   - Al levantar el escudo suena un zumbido de energía (`shield_up.wav`).
 - **Barra de desgaste:** debajo de la barra del especial hay una barra verde,
   `ESCUDO [I]` (`scripts/ShieldBar.gd`), que solo aparece en los niveles con escudo.
   - *Cómo se gasta:* baja 7.2/s mientras el escudo está arriba, 11.2 por cada
-    proyectil bloqueado y 17.6 por cada golpe cuerpo a cuerpo bloqueado. Con el
-    escudo arriba sin recibir golpes dura ≈14 s; aguanta 25 % más que la primera
-    versión (9 / 14 / 22).
+	proyectil bloqueado y 17.6 por cada golpe cuerpo a cuerpo bloqueado. Con el
+	escudo arriba sin recibir golpes dura ≈14 s; aguanta 25 % más que la primera
+	versión (9 / 14 / 22).
   - *Recarga:* se recarga sola, despacio: empieza 1.5 s después de soltar la I y sube
-    8/s, así que tarda ≈12 s de vacía a llena.
+	8/s, así que tarda ≈12 s de vacía a llena.
   - *Colores:* verde → amarillo → rojo, con una estela blanca que muestra lo que se
-    acaba de perder.
+	acaba de perder.
 - **Se ve más roto entre menos energía** (`ShieldFx._draw_damage`):
   - *Grietas:* aparecen poco a poco, crecen y se hacen más gruesas conforme baja
-    la energía; siempre son las mismas, para que se vea que el daño avanza.
+	la energía; siempre son las mismas, para que se vea que el daño avanza.
   - *Pedazos faltantes:* aparecen de la mitad de la energía para abajo.
   - *Brillo:* el escudo pierde brillo, y casi vacío parpadea.
   - Funciona igual sobre tu dibujo del nivel 2 y sobre el escudo dibujado del soldado.
 - **Si llega a cero, se rompe:**
   - El escudo estalla en esquirlas verdes con un sonido de cristal roto
-    (`assets/audio/shield_break.wav`) y baja solo.
+	(`assets/audio/shield_break.wav`) y baja solo.
   - La barra se pone roja y dice `ROTO`. Mientras tanto no se puede usar, aunque se
-    presione la I, hasta recargar a 40 (≈6 s). Una rayita en la barra marca ese
-    punto.
+	presione la I, hasta recargar a 40 (≈6 s). Una rayita en la barra marca ese
+	punto.
   - Todos los valores están en `Player.gd`: `SHIELD_DRAIN`, `SHIELD_HIT_COST`,
-    `SHIELD_MELEE_COST`, `SHIELD_REGEN`, `SHIELD_REGEN_DELAY` y `SHIELD_REARM`.
+	`SHIELD_MELEE_COST`, `SHIELD_REGEN`, `SHIELD_REGEN_DELAY` y `SHIELD_REARM`.
 - **Para extender:** quien dispare o golpee a Motocle debe pasar su posición:
   `player.take_damage(daño, global_position)`. Así el escudo sabe si el golpe
   viene de enfrente.
@@ -815,11 +815,11 @@ como antes. La lógica está en `scripts/ComicScreen.gd`.
   la izquierda.
 - **Botón "PRESIONA CUALQUIER TECLA PARA INICIAR":** parpadea abajo al centro.
   - *Qué inicia el juego:* cualquier tecla, clic o botón del control. También se
-    puede hacer clic en el botón.
+	puede hacer clic en el botón.
   - *Al iniciar:* suena la escopeta, la pantalla destella y pasa a negro, y
-    arranca la partida.
+	arranca la partida.
   - *Retraso:* la entrada se ignora los primeros 0.5 s (`INPUT_DELAY`) para que
-    no se salte la pantalla por accidente.
+	no se salte la pantalla por accidente.
 - **Controles:** abajo hay una línea pequeña con los controles.
 - La portada vieja `assets/backgrounds/main_menu.png` ya no se usa.
 
