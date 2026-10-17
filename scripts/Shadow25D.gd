@@ -6,6 +6,9 @@ extends Node2D
 
 var target: CollisionObject2D
 var width: float = 46.0
+## Ajustes para cuerpos tendidos (enemigos derrotados): mueve la sombra bajo el cuerpo.
+var x_offset: float = 0.0
+var y_offset: float = 0.0
 var _strength: float = 1.0
 
 
@@ -27,7 +30,7 @@ func _physics_process(_delta: float) -> void:
 	visible = target.visible
 	var height: float = hit.position.y - target.global_position.y
 	_strength = clampf(1.0 - height / 280.0, 0.3, 1.0)
-	global_position = hit.position + Vector2(0, 5)
+	global_position = hit.position + Vector2(x_offset, 5.0 + y_offset)
 	queue_redraw()
 
 

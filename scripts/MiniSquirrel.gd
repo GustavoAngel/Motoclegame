@@ -180,7 +180,7 @@ func _on_bite_area_body_entered(body: Node) -> void:
 		return
 	if body.is_in_group("player") and body.has_method("take_damage"):
 		_bit = true
-		body.take_damage(contact_damage)
+		body.take_damage(contact_damage, global_position)
 		GameManager.shake_camera(4.0)
 		_play_bite(0.85, 0.0)
 
@@ -202,6 +202,24 @@ func take_damage(amount: int) -> void:
 		_die()
 
 
+## Disparo a quemarropa (Motocle dispara mientras la ardilla está pegada a él):
+## muere al instante y sale volando lejos, girando, en la dirección del golpe.
+func launch(dir: int) -> void:
+	if state == State.DEAD:
+		return
+	health = 0
+	modulate = Color(2.5, 2.5, 2.5)
+	create_tween().tween_property(self, "modulate", Color.WHITE, 0.12)
+	_die()
+	face = -dir                       # mira hacia Motocle mientras sale despedida
+	sprite.flip_h = face < 0
+	velocity = Vector2(dir * 560.0, -470.0)
+	GameManager.shake_camera(6.0)
+	var spin := create_tween()
+	spin.tween_property(sprite, "rotation", dir * TAU * 1.5, 0.75).set_ease(Tween.EASE_OUT)
+	spin.tween_property(sprite, "rotation", 0.0, 0.0)
+
+
 func _die() -> void:
 	state = State.DEAD
 	remove_from_group("enemy")
@@ -210,6 +228,7 @@ func _die() -> void:
 	bite_area.set_deferred("monitoring", false)
 	GameManager.shake_camera(3.0)
 	GameManager.add_score(points)
+	GameManager.register_kill()
 	died.emit()
 	# animación de muerte (7 cuadros): aturdida -> sale volando hacia atrás ->
 	# cae mareada -> queda tendida con ojos en X
@@ -218,7 +237,16 @@ func _die() -> void:
 	sprite.speed_scale = 1.0
 	sprite.offset.y = -7.0   # los cuadros de muerte son un poco más altos: mantener los pies en el piso
 	sprite.play("death")
-	await sprite.animation_finished
+	# cuando cae (cuadro 5 en adelante) la sombra se ensancha y sube bajo el cuerpo tendido
+	while is_instance_valid(self) and sprite.animation == "death" and sprite.frame < 4:
+		await get_tree().process_frame
+	var shadow := get_node_or_null("Shadow25D")
+	if shadow:
+		var tw := create_tween().set_parallel(true)
+		tw.tween_property(shadow, "width", 92.0, 0.15)
+		tw.tween_property(shadow, "y_offset", -3.0, 0.15)
+	if sprite.is_playing():
+		await sprite.animation_finished
 	await get_tree().create_timer(1.6).timeout
 	if not is_instance_valid(self):
 		return

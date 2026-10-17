@@ -223,7 +223,7 @@ func _play_sfx(pitch: float, volume: float) -> void:
 
 ## Animación de derrumbe: la plataforma desaparece y se convierte en pedazos
 ## que salen volando con giro y gravedad, más una nube de polvo.
-func _break_apart() -> void:
+func _break_apart(push_dir: int = 0) -> void:
 	_broken = true
 	_col.set_deferred("disabled", true)
 	var debris: Node2D = DEBRIS_SCRIPT.new()
@@ -232,9 +232,47 @@ func _break_apart() -> void:
 	var parent := get_tree().current_scene if get_tree().current_scene else get_parent()
 	parent.add_child(debris)
 	debris.global_position = global_position
+	if push_dir != 0:
+		debris.push(push_dir * 260.0)
 	_play_sfx(0.9, -2.0)
 	GameManager.shake_camera(6.0)
 	crumbled.emit()
+	queue_redraw()
+
+
+## Destrozo instantáneo (el jefe del nivel 1 la atraviesa embistiendo): los pedazos
+## salen disparados en la dirección de la embestida. Si `rebuild_time` > 0 la
+## plataforma vuelve a armarse después de ese tiempo (para que la arena no se quede
+## sin repisas). Regresa true si sí se rompió.
+func smash(dir: int, rebuild_time: float = 0.0) -> bool:
+	if is_ground or _broken:
+		return false
+	_crumble_timer = -1.0
+	_break_apart(dir)
+	if rebuild_time > 0.0:
+		get_tree().create_timer(rebuild_time, false).timeout.connect(_rebuild_after_smash)
+	return true
+
+
+func _rebuild_after_smash() -> void:
+	if not is_instance_valid(self) or not _broken:
+		return
+	# no se rearma encima de alguien (esperar un poco más)
+	for b in get_tree().get_nodes_in_group("player") + get_tree().get_nodes_in_group("boss"):
+		if b is Node2D and absf((b as Node2D).global_position.x - global_position.x) < size.x * 0.5 + 40.0 \
+				and (b as Node2D).global_position.y > global_position.y - 20.0 and (b as Node2D).global_position.y < global_position.y + 180.0:
+			get_tree().create_timer(1.0, false).timeout.connect(_rebuild_after_smash)
+			return
+	_broken = false
+	_trembling = false
+	_landings = 0
+	_crumble_timer = -1.0
+	_player_was_on = false
+	_col.set_deferred("disabled", false)
+	modulate.a = 0.0
+	var tw := create_tween()
+	tw.tween_property(self, "modulate:a", 1.0, 0.4)
+	_play_sfx(1.6, -12.0)
 	queue_redraw()
 
 

@@ -23,6 +23,7 @@ dialogue_text = "El auditorio es el siguiente... GLITCH.exe está reforzando su 
 is_final_level = false
 level_width = 2700
 platform_style = "cafeteria"
+player_shield = true
 
 [node name="Fondo" type="Node2D" parent="."]
 z_index = -10

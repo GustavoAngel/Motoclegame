@@ -83,6 +83,7 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		GameManager.shake_camera(3.0)
 		GameManager.add_score(100)
+		GameManager.register_kill()
 		died.emit()
 		queue_free()
 

@@ -1,4 +1,6 @@
 extends Node2D
+
+const ComicScreen := preload("res://scripts/ComicScreen.gd")
 ## Script compartido por los 5 niveles. Conecta al jefe, el fragmento
 ## de Avelina y la puerta de salida para armar la secuencia:
 ## derrotar al jefe -> aparece el fragmento -> diálogo -> se abre la salida.
@@ -28,6 +30,19 @@ const SHADOW_SCRIPT := preload("res://scripts/Shadow25D.gd")
 ## Si está activo, TODAS las plataformas flotantes del nivel se rompen al segundo
 ## aterrizaje desde el inicio (al primero se agrietan y empiezan a temblar).
 @export var fragile_platforms: bool = false
+## Arma de Motocle en este nivel: "rifle" o "shotgun" (escopeta, nivel 2).
+@export_enum("rifle", "shotgun") var player_weapon: String = "rifle"
+## Skin de Motocle en este nivel ("default" = soldado; "hospital" = bata, nivel 2).
+@export var player_skin: String = "default"
+## Música de fondo del nivel (vacío = la pista general del juego).
+@export var music: AudioStream
+## Escudo UTT (tecla I): se gana a partir del nivel 2.
+@export var player_shield: bool = false
+## Historieta que se muestra en cuanto cae el jefe; con un clic arranca el siguiente
+## nivel directamente (sin fragmento, puerta ni pantalla de carga).
+@export var comic_after_boss: Texture2D
+## Segundos entre la muerte del jefe y la historieta (deja ver el golpe final).
+@export var comic_delay: float = 1.0
 
 var _collapse_started := false
 var _rumble_timer := 0.0
@@ -40,6 +55,7 @@ var _rumble_timer := 0.0
 
 func _ready() -> void:
 	GameManager.reset_health()
+	GameManager.reset_special()   # la barra del especial empieza vacía en cada nivel
 	if hud:
 		hud.set_level_name(level_title)
 	if exit_door:
@@ -48,6 +64,15 @@ func _ready() -> void:
 		boss.defeated.connect(_on_boss_defeated)
 	if fragment:
 		fragment.picked_up.connect(_on_fragment_collected)
+	var player := get_tree().get_first_node_in_group("player")
+	if player and "weapon" in player:
+		player.weapon = player_weapon
+	if player and "shield_enabled" in player:
+		player.shield_enabled = player_shield
+	if player and player.has_method("set_skin") and player_skin != "default":
+		player.set_skin(player_skin)
+	if get_node_or_null("/root/MusicManager"):
+		MusicManager.play_track(music)
 	_setup_camera()
 	_apply_platform_style()
 	_add_shadows()
@@ -140,10 +165,24 @@ func _add_shadows() -> void:
 
 
 func _on_boss_defeated() -> void:
+	if comic_after_boss:
+		_show_comic_after_boss()
+		return
 	if fragment:
 		fragment.activate()
 	elif exit_door:
 		exit_door.activate()
+
+
+func _show_comic_after_boss() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("start_invincibility"):
+		player.start_invincibility(comic_delay + 5.0)   # que nada lo lastime mientras tanto
+	await get_tree().create_timer(comic_delay).timeout
+	var comic := ComicScreen.new()
+	comic.texture = comic_after_boss
+	comic.on_continue = func(): GameManager.go_to_next_level(true)
+	get_tree().root.add_child(comic)
 
 
 func _on_fragment_collected() -> void:

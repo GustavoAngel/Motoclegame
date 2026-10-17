@@ -13,6 +13,9 @@ signal died
 @export var anim_name: StringName = &"walk"
 @export var death_anim_name: StringName = &"death"
 @export var points: int = 100
+## Si está sobre una repisa, no se baja de ella persiguiendo a Motocle: espera en la orilla.
+@export var stay_on_platform: bool = false
+var _ledge_ray: RayCast2D
 
 const AVOID_TIME := 0.35  ## cuánto tiempo se aleja de otro zombie antes de volver a perseguir
 
@@ -85,6 +88,8 @@ func _physics_process(delta: float) -> void:
 				var dir: float = sign(dx)
 				velocity.x = dir * move_speed
 				sprite.flip_h = dir < 0
+				if stay_on_platform and is_on_floor() and _edge_ahead(dir):
+					velocity.x = 0.0
 			else:
 				velocity.x = 0
 		else:
@@ -93,6 +98,17 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_check_enemy_collision()
 	_update_groan(delta)
+
+
+func _edge_ahead(dir: float) -> bool:
+	if _ledge_ray == null:
+		_ledge_ray = RayCast2D.new()
+		_ledge_ray.collision_mask = 1
+		_ledge_ray.target_position = Vector2(0, 40)
+		add_child(_ledge_ray)
+	_ledge_ray.position = Vector2(dir * 22.0, -6.0)
+	_ledge_ray.force_raycast_update()
+	return not _ledge_ray.is_colliding()
 
 
 func _update_groan(delta: float) -> void:
@@ -166,6 +182,7 @@ func _die() -> void:
 	collision_mask = 0
 	GameManager.shake_camera(3.0)
 	GameManager.add_score(points)
+	GameManager.register_kill()
 	died.emit()
 	# reproduce la animación de muerte y se queda como restos en el piso
 	# (AnimatedSprite2D no-loop se detiene solo en el último cuadro al terminar)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="2"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://scenes/MiniSquirrel.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://scenes/DoctorBoss.tscn" id="12"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/hospital/frente.png" id="13"]
+[ext_resource type="AudioStream" path="res://assets/audio/music_hospital.ogg" id="14"]
 
 [node name="Level2_Biblioteca" type="Node2D"]
 script = ExtResource("1")
@@ -21,7 +22,11 @@ dialogue_text = "Sigue hacia la cafetería, Motocle... ahí escondí otro fragme
 is_final_level = false
 level_width = 3780
 platform_style = "enfermeria"
+player_shield = true
+music = ExtResource("14")
 slippery_platforms = true
+player_weapon = "shotgun"
+player_skin = "hospital"
 
 [node name="Fondo" type="Node2D" parent="."]
 z_index = -10
@@ -209,6 +214,26 @@ move_duration = 2.4
 [node name="Plataforma19" parent="Plataformas" instance=ExtResource("2")]
 position = Vector2(3420, 440)
 size = Vector2(110, 18)
+
+[node name="Plataforma20" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(3270, 470)
+size = Vector2(100, 18)
+
+[node name="Plataforma21" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(3540, 365)
+size = Vector2(150, 18)
+
+[node name="Plataforma22" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(3700, 380)
+size = Vector2(120, 18)
+
+[node name="Plataforma23" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(3400, 290)
+size = Vector2(120, 18)
+
+[node name="Plataforma24" parent="Plataformas" instance=ExtResource("2")]
+position = Vector2(3680, 290)
+size = Vector2(100, 18)
 
 [node name="Player" parent="." instance=ExtResource("3")]
 position = Vector2(80, 532)

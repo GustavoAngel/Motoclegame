@@ -48,8 +48,18 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
+	# disparo enemigo que choca con el escudo de Motocle: se deshace sin hacer daño
+	if not friendly and body.has_method("shield_blocks") and body.shield_blocks(global_position, true):
+		body._on_shield_block(global_position)
+		queue_free()
+		return
 	if body.has_method("take_damage"):
+		var hp_before = body.get("health")
 		body.take_damage(damage)
+		# golpe de Motocle a un jefe que sí le quitó vida: carga la barra del especial
+		if friendly and body.is_in_group("boss") and hp_before != null and body.get("health") != null \
+				and body.get("health") < hp_before:
+			GameManager.register_boss_hit()
 		if friendly and body.is_in_group("enemy"):
 			_spawn_blood(body.global_position)
 			GameManager.shake_camera(2.2)

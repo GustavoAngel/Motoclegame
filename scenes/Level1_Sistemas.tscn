@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/Platform.tscn" id="2"]
@@ -14,9 +14,12 @@
 [ext_resource type="PackedScene" path="res://scenes/ZombieRotten.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://scenes/ZombieBoss.tscn" id="13"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/sistemas/frente.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/comics/comic_nivel2.jpg" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/ZombieDog.tscn" id="16"]
 
 [node name="Level1_Sistemas" type="Node2D"]
 script = ExtResource("1")
+comic_after_boss = ExtResource("15")
 level_title = "Edificio de Sistemas — Brote Zombie"
 dialogue_text = "Motocle... GLITCH.exe no solo infectó las máquinas, ¡también contagió al Profesor Reyes y a los ayudantes del laboratorio! Busca en la enfermería... el virus dividió mis archivos en fragmentos por todo el campus..."
 is_final_level = false
@@ -198,12 +201,44 @@ position = Vector2(3150, 532)
 [node name="Zombie16" parent="." instance=ExtResource("11")]
 position = Vector2(3300, 532)
 
+[node name="PerroZombie1" parent="." instance=ExtResource("16")]
+position = Vector2(760, 532)
+
+[node name="PerroZombie2" parent="." instance=ExtResource("16")]
+position = Vector2(1450, 532)
+
+[node name="PerroZombie3" parent="." instance=ExtResource("16")]
+position = Vector2(2250, 532)
+
+[node name="PerroZombie4" parent="." instance=ExtResource("16")]
+position = Vector2(2780, 532)
+
+[node name="PerroZombie5" parent="." instance=ExtResource("16")]
+position = Vector2(1060, 455)
+
+[node name="PerroZombie6" parent="." instance=ExtResource("16")]
+position = Vector2(1880, 305)
+
+[node name="PerroZombie7" parent="." instance=ExtResource("16")]
+position = Vector2(2370, 380)
+
+[node name="PerroZombie8" parent="." instance=ExtResource("16")]
+position = Vector2(2870, 305)
+
+[node name="ZombiePlataforma1" parent="." instance=ExtResource("10")]
+position = Vector2(1560, 455)
+stay_on_platform = true
+
+[node name="ZombiePlataforma2" parent="." instance=ExtResource("12")]
+position = Vector2(2530, 455)
+stay_on_platform = true
+
 [node name="Boss" parent="." instance=ExtResource("13")]
 position = Vector2(3680, 532)
-max_health = 150
-patrol_range = 50.0
-move_speed = 22.0
-throw_interval = 2.2
+max_health = 132
+move_speed = 130.0
+arena_left = 3080.0
+arena_right = 3860.0
 contact_damage = 15
 boss_name = "Profesor Zombie"
 

@@ -34,6 +34,14 @@ func setup(size: Vector2, top: Color, front: Color, side: Color, edge: Color, wi
 			"r": randf_range(8, 16), "grow": randf_range(18, 34)})
 
 
+## Empuje extra en X (cuando el jefe la atraviesa embistiendo).
+func push(vx: float) -> void:
+	for pc in _pieces:
+		pc["vel"].x += vx * randf_range(0.6, 1.3)
+	for pf in _puffs:
+		pf["vel"].x += vx * 0.3
+
+
 func _add_piece(pos: Vector2, vel: Vector2, sz: Vector2, col: Color, edge: Color) -> void:
 	_pieces.append({"pos": pos, "vel": vel, "rot": 0.0, "spin": randf_range(-9.0, 9.0) * (0.3 if sz.y > 60 else 1.0),
 		"size": sz, "col": col, "edge": edge})

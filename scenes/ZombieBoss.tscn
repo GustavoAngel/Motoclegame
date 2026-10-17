@@ -1,16 +1,29 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://scripts/ZombieBoss.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/idle.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_01.png" id="3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_02.png" id="4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_03.png" id="5"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_04.png" id="6"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_05.png" id="7"]
-[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss/throw_06.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/idle.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_01.png" id="c1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_02.png" id="c2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_03.png" id="c3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_04.png" id="c4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_05.png" id="c5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_06.png" id="c6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/charge_07.png" id="c7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/intro_01.png" id="i1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/intro_02.png" id="i2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/intro_03.png" id="i3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/intro_04.png" id="i4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/intro_05.png" id="i5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/intro_06.png" id="i6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/walk_01.png" id="w1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/walk_02.png" id="w2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/walk_03.png" id="w3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/walk_04.png" id="w4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/walk_05.png" id="w5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombie_boss_v2/walk_06.png" id="w6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(70, 122)
+size = Vector2(76, 140)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1"]
 animations = [{
@@ -21,29 +34,98 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("c1")
+}],
+"loop": false,
+"name": &"charge_start",
+"speed": 5.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("c2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("c3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("c4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("c5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("c6")
+}],
+"loop": true,
+"name": &"charge_run",
+"speed": 12.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("c7")
+}],
+"loop": false,
+"name": &"charge_stop",
+"speed": 5.0
+},
+{
+"frames": [{
+"duration": 1.3,
+"texture": ExtResource("i1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("i2")
+}, {
+"duration": 1.2,
+"texture": ExtResource("i3")
+}, {
+"duration": 1.5,
+"texture": ExtResource("i4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("i5")
+}],
+"loop": false,
+"name": &"intro",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8")
+"texture": ExtResource("i6")
 }],
-"loop": false,
-"name": &"throw",
-"speed": 8.0
+"loop": true,
+"name": &"roar",
+"speed": 5.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("w1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("w2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("w3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("w4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("w5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("w6")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
 }]
 
 [node name="ZombieBoss" type="CharacterBody2D"]
@@ -53,13 +135,13 @@ script = ExtResource("1")
 boss_name = "Profesor Zombie"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -80)
+position = Vector2(0, -91)
 sprite_frames = SubResource("SpriteFrames_1")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -70)
+position = Vector2(0, -79)
 shape = SubResource("RectangleShape2D_1")
 
 [node name="ThrowTimer" type="Timer" parent="."]
@@ -67,15 +149,15 @@ wait_time = 2.4
 
 [node name="NameLabel" type="Label" parent="."]
 offset_left = -70.0
-offset_top = -168.0
+offset_top = -224.0
 offset_right = 70.0
-offset_bottom = -149.0
+offset_bottom = -205.0
 horizontal_alignment = 1
 text = "Jefe"
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -60.0
-offset_top = -145.0
+offset_top = -202.0
 offset_right = 60.0
-offset_bottom = -131.0
+offset_bottom = -188.0
 show_percentage = false

@@ -3,6 +3,8 @@ extends CanvasLayer
 
 const HEART_FULL := preload("res://assets/ui/heart_full.png")
 const HEART_EMPTY := preload("res://assets/ui/heart_empty.png")
+const SpecialBar := preload("res://scripts/SpecialBar.gd")
+const ShieldBar := preload("res://scripts/ShieldBar.gd")
 
 @onready var hearts_box: HBoxContainer = get_node_or_null("LeftHUD/VBoxContainer/HeartsRow")
 @onready var level_label: Label = get_node_or_null("LeftHUD/VBoxContainer/LevelLabel")
@@ -30,6 +32,16 @@ func _ready() -> void:
 		for child in hearts_box.get_children():
 			if child is TextureRect:
 				_heart_rects.append(child)
+
+	# barra del ataque especial, justo debajo de los corazones
+	if hearts_box:
+		var bar := SpecialBar.new()
+		hearts_box.get_parent().add_child(bar)
+		hearts_box.get_parent().move_child(bar, hearts_box.get_index() + 1)
+		# barra de desgaste del escudo (solo se ve en los niveles con escudo)
+		var sbar := ShieldBar.new()
+		hearts_box.get_parent().add_child(sbar)
+		hearts_box.get_parent().move_child(sbar, bar.get_index() + 1)
 
 	_update_hearts(GameManager.current_health)
 	_update_score(GameManager.score, false)

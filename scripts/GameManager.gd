@@ -10,6 +10,8 @@ signal health_changed(new_health: int)
 
 ## Emite la puntuación acumulada actual.
 signal score_changed(new_score: int)
+## Barra de ataque especial (se llena matando enemigos).
+signal special_changed(kills: int, needed: int)
 
 ## Vida medida en corazones: cada golpe (bala o contacto) quita 1 corazón
 ## completo, sin importar qué tanto "daño" numérico traiga el ataque --
@@ -60,6 +62,9 @@ const LEVEL_DATA := [
 var current_health: int = MAX_HEARTS
 var current_level_index: int = 0
 var score: int = 0
+## Enemigos que hay que derrotar para llenar la barra del ataque especial.
+const SPECIAL_KILLS := 3
+var special_kills: int = 0
 var _dialogue_scene := preload("res://scenes/DialogueBox.tscn")
 var _pause_scene := preload("res://scenes/PauseMenu.tscn")
 var _wasted_scene := preload("res://scenes/WastedScreen.tscn")
@@ -151,6 +156,45 @@ func add_score(amount: int) -> void:
 	score_changed.emit(score)
 
 
+## Un enemigo derrotado: suma a la barra del ataque especial (tope SPECIAL_KILLS).
+func register_kill() -> void:
+	if special_kills < SPECIAL_KILLS:
+		special_kills += 1
+		special_changed.emit(special_kills, SPECIAL_KILLS)
+
+
+## Golpe de Motocle a un jefe: también llena un segmento de la barra del especial.
+## Con la escopeta varios perdigones pegan a la vez, así que cuenta como un solo
+## golpe por disparo (máximo uno cada BOSS_HIT_COOLDOWN segundos).
+const BOSS_HIT_COOLDOWN := 0.25
+var _last_boss_hit_ms := -100000
+
+func register_boss_hit() -> void:
+	var now := Time.get_ticks_msec()
+	if now - _last_boss_hit_ms < int(BOSS_HIT_COOLDOWN * 1000.0):
+		return
+	_last_boss_hit_ms = now
+	register_kill()
+
+
+func special_ready() -> bool:
+	return special_kills >= SPECIAL_KILLS
+
+
+## Gasta la barra completa. Devuelve false si no estaba llena.
+func use_special() -> bool:
+	if not special_ready():
+		return false
+	special_kills = 0
+	special_changed.emit(special_kills, SPECIAL_KILLS)
+	return true
+
+
+func reset_special() -> void:
+	special_kills = 0
+	special_changed.emit(special_kills, SPECIAL_KILLS)
+
+
 func reset_score() -> void:
 	score = 0
 	score_changed.emit(score)
@@ -227,6 +271,13 @@ func _trigger_wasted_death(reason: String, subtitle: String) -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	if player and player.has_method("die"):
 		player.die(reason)
+	# Si la skin del nivel trae animación de derrota, se deja verla completa (a
+	# color y sin cámara lenta) antes de la pantalla de ELIMINADO.
+	var wait := 0.0
+	if player and player.has_method("get_death_anim_time"):
+		wait = player.get_death_anim_time()
+	if wait > 0.0:
+		await get_tree().create_timer(wait, true, false, true).timeout
 
 	var wasted_instance = _wasted_scene.instantiate()
 	get_tree().root.add_child.call_deferred(wasted_instance)
@@ -241,14 +292,19 @@ func _show_retry_overlay(message: String) -> void:
 	_trigger_wasted_death("damage", message)
 
 
-func go_to_next_level() -> void:
+## skip_loading = true arranca el nivel directo, sin la pantalla de carga
+## (por ejemplo después de una historieta).
+func go_to_next_level(skip_loading: bool = false) -> void:
 	current_level_index += 1
 	if current_level_index >= LEVELS.size():
 		win_game()
 		return
 	reset_health()
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/LoadingScreen.tscn")
+	if skip_loading:
+		get_tree().change_scene_to_file(LEVELS[current_level_index])
+	else:
+		get_tree().change_scene_to_file("res://scenes/LoadingScreen.tscn")
 
 
 func win_game() -> void:

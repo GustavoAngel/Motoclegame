@@ -23,6 +23,7 @@ dialogue_text = "¡Motocle! Lo lograste... estoy libre. Vámonos de El H antes d
 is_final_level = true
 level_width = 3000
 platform_style = "servidor"
+player_shield = true
 
 [node name="Fondo" type="Node2D" parent="."]
 z_index = -10
